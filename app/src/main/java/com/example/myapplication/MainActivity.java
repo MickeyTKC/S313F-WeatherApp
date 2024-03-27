@@ -25,6 +25,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.databinding.ActivityMainBinding;
+import com.example.myapplication.api.*;
 
 import java.util.*;
 
@@ -81,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                 getLocation();
             }
         });
+
+
     }
 
     @SuppressLint("MissingPermission")
@@ -108,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
             e.printStackTrace();
         }
 
+        JsonHandlerThread th = new JsonHandlerThread();
+        th.start();
+        Log.d("API", CurrentWeather.res);
     }
 
     @Override
