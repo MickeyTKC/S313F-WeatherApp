@@ -15,13 +15,21 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+
+import com.example.myapplication.model.*;
 
 public class JsonHandlerThread extends Thread {
     private static final String TAG = "JsonHandlerThread";
     // URL to get contacts JSON file
-    private static String jsonUrl = "https://api.openweathermap.org/data/2.5/weather?lat=37.421998333333335&lon=-122.084&appid=0afc41116086771ceea4c08d88916501";
+
+    private static String jsonUrl = "";
 
     // send request to the url, no need to be changed
+    public void setLocValue(double lat, double lon){
+        jsonUrl = "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid=0afc41116086771ceea4c08d88916501";
+    }
+
     public static String makeRequest() {
         String response = null;
         try {
