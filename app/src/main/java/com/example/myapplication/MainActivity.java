@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         try {
             locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,5,MainActivity.this);
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -112,7 +113,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         }
 
         JsonHandlerThread th = new JsonHandlerThread();
+        th.setLocValue(location.getLatitude(), location.getLongitude());
         th.start();
+
+
         Log.d("API", CurrentWeather.res);
     }
 
