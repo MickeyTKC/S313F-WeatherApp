@@ -2,6 +2,7 @@ package com.example.myapplication.ui.home;
 
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +25,20 @@ import java.util.Locale;
 public class HomeFragment extends Fragment {
     private static String tag = "HomeFragment";
     private FragmentHomeBinding binding;
+    private HomeViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
+        homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         // Setup Binding
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        return root;
+    }
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        Log.d("onViewCreated","Testing");
         // Declare TextView
         final TextView textCurrentDate = binding.textCurrentDate;
         final TextView textCurrentAddress = binding.textCurrentAddress;
@@ -40,15 +47,30 @@ public class HomeFragment extends Fragment {
         final TextView textCurrentWind = binding.textCurrentWind;
         final TextView textCurrentVisibility = binding.textCurrentVisibility;
         // SetText to TextView
-
-
-        homeViewModel.getCurrentDate().observe(getViewLifecycleOwner(), textCurrentDate::setText);
-        homeViewModel.getCurrentAddress().observe(getViewLifecycleOwner(), textCurrentAddress::setText);
-        homeViewModel.getCurrentTemp().observe(getViewLifecycleOwner(), textCurrentTemp::setText);
-        homeViewModel.getCurrentTempDetail().observe(getViewLifecycleOwner(), textCurrentTempDetail::setText);
-        homeViewModel.getCurrentWind().observe(getViewLifecycleOwner(), textCurrentWind::setText);
-        homeViewModel.getCurrentVisibility().observe(getViewLifecycleOwner(), textCurrentVisibility::setText);
-        return root;
+        homeViewModel.getCurrentDate().observe(getViewLifecycleOwner(), text->{
+            Date now = Calendar.getInstance().getTime();
+            SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+            textCurrentDate.setText(df.format(now));
+        });
+        homeViewModel.getCurrentAddress().observe(getViewLifecycleOwner(), text->{
+            textCurrentAddress.setText(MainActivity.address);
+        });
+        homeViewModel.getCurrentTemp().observe(getViewLifecycleOwner(), text->{
+            textCurrentTemp.setText(CurrentWeather.data.get(CurrentWeather.TEMP));
+        });
+        homeViewModel.getCurrentTempDetail().observe(getViewLifecycleOwner(), text->{
+            textCurrentTempDetail.setText(
+                    CurrentWeather.data.get(CurrentWeather.TEMP)+
+                            ",MAX:"+CurrentWeather.data.get(CurrentWeather.TEMP_MAX)+
+                            ",MIN:"+CurrentWeather.data.get(CurrentWeather.TEMP_MIN)
+            );
+        });
+        homeViewModel.getCurrentWind().observe(getViewLifecycleOwner(), text->{
+            textCurrentWind.setText(CurrentWeather.data.get(CurrentWeather.WIND));
+        });
+        homeViewModel.getCurrentVisibility().observe(getViewLifecycleOwner(), text->{
+            textCurrentVisibility.setText(CurrentWeather.data.get(CurrentWeather.VISIBILITY));
+        });
     }
 
     @Override

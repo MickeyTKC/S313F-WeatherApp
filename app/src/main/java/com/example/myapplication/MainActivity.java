@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     private ActivityMainBinding binding;
 
     public static String address;
+    public static JsonHandlerThread th;
     TextView textCurrentDate;
     TextView textCurrentAddress;
     TextView textCurrentTemp;
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         //String url = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
        try{
            String url = "https://api.openweathermap.org/data/2.5/weather?lat=37.421998333333335&lon=-122.084&appid=0afc41116086771ceea4c08d88916501";
-           JsonHandlerThread th = new JsonHandlerThread(url);
+           th = new JsonHandlerThread(url);
            th.start();
            th.join();
            CurrentWeather.setData(th.getResult());

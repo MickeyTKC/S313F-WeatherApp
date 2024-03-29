@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.home;
 
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.lifecycle.LiveData;
@@ -32,10 +33,7 @@ public class HomeViewModel extends ViewModel {
         textCurrentWind = new MutableLiveData<>();
         textCurrentVisibility = new MutableLiveData<>();
         mText = new MutableLiveData<>();
-        mText.setValue("Loading...");
-        Date now = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-        textCurrentDate.setValue(df.format(now));
+        Log.d("HomeModel",CurrentWeather.data.toString());
         textCurrentAddress.setValue(MainActivity.address);
         textCurrentTemp.setValue(CurrentWeather.data.get(CurrentWeather.TEMP));
         textCurrentTempDetail.setValue(
