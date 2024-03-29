@@ -1,7 +1,5 @@
 package com.example.myapplication.model;
 
-import com.example.myapplication.api.CurrentWeather;
-
 public class CurrentWeather_model{
     private double lat =0;
     private double lon =0;

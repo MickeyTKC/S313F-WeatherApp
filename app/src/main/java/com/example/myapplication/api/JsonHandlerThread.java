@@ -20,17 +20,28 @@ import java.sql.PreparedStatement;
 import com.example.myapplication.model.*;
 
 public class JsonHandlerThread extends Thread {
+    // Constance
     private static final String TAG = "JsonHandlerThread";
+    public static final String OPEN_WEATHER_BASE = "https://api.openweathermap.org/data/2.5/";
+    public static final String OPEN_WEATHER_CURRENT = "weather?";
+    public static final String OPEN_WEATHER_FORECAST = "forecast/?";
+    public static final String OPEN_WEATHER_KEY = "&appid=0afc41116086771ceea4c08d88916501";
+    public static final String OPEN_METEO_BASE = "/";
     // URL to get contacts JSON file
+    private String jsonUrl = "";
+    private JSONObject res;
 
-    private static String jsonUrl = "";
+    public JsonHandlerThread(String url){
+        this.jsonUrl = url;
+    }
+
 
     // send request to the url, no need to be changed
     public void setLocValue(double lat, double lon){
         jsonUrl = "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid=0afc41116086771ceea4c08d88916501";
     }
 
-    public static String makeRequest() {
+    public static String makeRequest(String jsonUrl) {
         String response = null;
         try {
             URL url = new URL(jsonUrl);
@@ -56,7 +67,6 @@ public class JsonHandlerThread extends Thread {
     private static String inputStreamToString(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
-
         String line = "";
         try {
             while ((line = reader.readLine()) != null) {
@@ -76,22 +86,21 @@ public class JsonHandlerThread extends Thread {
 
     public void run() {
         // "contactStr" variable store the json file content
-        String contactStr = makeRequest();
+        String contactStr = makeRequest(jsonUrl);
         Log.e(TAG, "Response from url: " + contactStr);
-
         if (contactStr != null) {
             try {
                 JSONObject jsonObj = new JSONObject(contactStr);
-
-
-                CurrentWeather.res= jsonObj.toString();
-
-
+                this.res = jsonObj;
             } catch (final JSONException e) {
                 Log.e(TAG, "Json parsing error: " + e.getMessage());
             }
         } else {
             Log.e(TAG, "Couldn't get json from server.");
         }
+    }
+
+    public JSONObject getResult(){
+        return this.res;
     }
 }
