@@ -43,7 +43,8 @@ public class HomeFragment extends Fragment {
         final TextView textCurrentDate = binding.textCurrentDate;
         final TextView textCurrentAddress = binding.textCurrentAddress;
         final TextView textCurrentTemp = binding.textCurrentTemp;
-        final TextView textCurrentTempDetail = binding.textCurrentTempDetail;
+        final TextView textCurrentTempMin = binding.textCurrentTempMin;
+        final TextView textCurrentTempMax = binding.textCurrentTempMax;
         final TextView textCurrentWind = binding.textCurrentWind;
         final TextView textCurrentVisibility = binding.textCurrentVisibility;
         // SetText to TextView
@@ -53,17 +54,18 @@ public class HomeFragment extends Fragment {
             textCurrentDate.setText(df.format(now));
         });
         homeViewModel.getCurrentAddress().observe(getViewLifecycleOwner(), text->{
-            textCurrentAddress.setText(MainActivity.address);
+            textCurrentAddress.setText(MainActivity.country);
         });
         homeViewModel.getCurrentTemp().observe(getViewLifecycleOwner(), text->{
             textCurrentTemp.setText(CurrentWeather.data.get(CurrentWeather.TEMP));
         });
-        homeViewModel.getCurrentTempDetail().observe(getViewLifecycleOwner(), text->{
-            textCurrentTempDetail.setText(
-                    CurrentWeather.data.get(CurrentWeather.TEMP)+
-                            ",MAX:"+CurrentWeather.data.get(CurrentWeather.TEMP_MAX)+
-                            ",MIN:"+CurrentWeather.data.get(CurrentWeather.TEMP_MIN)
-            );
+        homeViewModel.getCurrentTempMin().observe(getViewLifecycleOwner(), text->{
+            textCurrentTempMin.setText(
+                    CurrentWeather.data.get(CurrentWeather.TEMP_MIN));
+        });
+        homeViewModel.getCurrentTempMax().observe(getViewLifecycleOwner(), text->{
+            textCurrentTempMax.setText(
+                    CurrentWeather.data.get(CurrentWeather.TEMP_MAX));
         });
         homeViewModel.getCurrentWind().observe(getViewLifecycleOwner(), text->{
             textCurrentWind.setText(CurrentWeather.data.get(CurrentWeather.WIND));

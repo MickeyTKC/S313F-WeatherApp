@@ -21,7 +21,8 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<String> textCurrentDate;
     private final MutableLiveData<String> textCurrentAddress;
     private final MutableLiveData<String> textCurrentTemp;
-    private final MutableLiveData<String> textCurrentTempDetail;
+    private final MutableLiveData<String> textCurrentTempMin;
+    private final MutableLiveData<String> textCurrentTempMax;
     private final MutableLiveData<String> textCurrentWind;
     private final MutableLiveData<String> textCurrentVisibility;
 
@@ -29,18 +30,16 @@ public class HomeViewModel extends ViewModel {
         textCurrentDate = new MutableLiveData<>();
         textCurrentAddress = new MutableLiveData<>();
         textCurrentTemp = new MutableLiveData<>();
-        textCurrentTempDetail = new MutableLiveData<>();
+        textCurrentTempMin = new MutableLiveData<>();
+        textCurrentTempMax = new MutableLiveData<>();
         textCurrentWind = new MutableLiveData<>();
         textCurrentVisibility = new MutableLiveData<>();
         mText = new MutableLiveData<>();
         Log.d("HomeModel",CurrentWeather.data.toString());
-        textCurrentAddress.setValue(MainActivity.address);
+        textCurrentAddress.setValue(MainActivity.country);
         textCurrentTemp.setValue(CurrentWeather.data.get(CurrentWeather.TEMP));
-        textCurrentTempDetail.setValue(
-                CurrentWeather.data.get(CurrentWeather.TEMP)+
-                        ",MAX:"+CurrentWeather.data.get(CurrentWeather.TEMP_MAX)+
-                        ",MIN:"+CurrentWeather.data.get(CurrentWeather.TEMP_MIN)
-        );
+        textCurrentTempMin.setValue(CurrentWeather.data.get(CurrentWeather.TEMP_MIN));
+        textCurrentTempMax.setValue(CurrentWeather.data.get(CurrentWeather.TEMP_MAX));
         textCurrentWind.setValue(CurrentWeather.data.get(CurrentWeather.WIND));
         textCurrentVisibility.setValue(CurrentWeather.data.get(CurrentWeather.VISIBILITY));
     }
@@ -51,12 +50,9 @@ public class HomeViewModel extends ViewModel {
     public LiveData<String> getCurrentAddress() {
         return textCurrentAddress;
     }
-    public LiveData<String> getCurrentTemp() {
-        return textCurrentTemp;
-    }
-    public LiveData<String> getCurrentTempDetail() {
-        return textCurrentTempDetail;
-    }
+    public LiveData<String> getCurrentTemp() { return textCurrentTemp; }
+    public LiveData<String> getCurrentTempMin() { return textCurrentTempMin; }
+    public LiveData<String> getCurrentTempMax() { return textCurrentTempMax; }
     public LiveData<String> getCurrentWind() {
         return textCurrentWind;
     }

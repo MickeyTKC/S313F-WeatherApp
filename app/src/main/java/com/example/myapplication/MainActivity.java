@@ -39,13 +39,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     private static String tag = "MainActivity";
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-
+    public static double lat;
+    public static double lon;
     public static String address;
+    public static String country;
     public static JsonHandlerThread th;
     TextView textCurrentDate;
     TextView textCurrentAddress;
     TextView textCurrentTemp;
-    TextView textCurrentTempDetail;
+    TextView textCurrentTempMin;
+    TextView textCurrentTempMax;
     TextView textCurrentWind;
     TextView textCurrentVisibility;
     LocationManager locationManager;
@@ -82,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         textCurrentDate = findViewById(R.id.textCurrentDate);
         textCurrentAddress = findViewById(R.id.textCurrentAddress);
         textCurrentTemp = findViewById(R.id.textCurrentTemp);
-        textCurrentTempDetail = findViewById(R.id.textCurrentTempDetail);
+        textCurrentTempMin = findViewById(R.id.textCurrentTempMin);
+        textCurrentTempMax = findViewById(R.id.textCurrentTempMax);
         textCurrentWind = findViewById(R.id.textCurrentWind);
         textCurrentVisibility = findViewById(R.id.textCurrentVisibility);
 
@@ -101,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         try {
             locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,5,MainActivity.this);
-
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -111,13 +114,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         Date now = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         textCurrentDate.setText(df.format(now));
-        textCurrentAddress.setText(address);
+        textCurrentAddress.setText(country);
         textCurrentTemp.setText(CurrentWeather.data.get(CurrentWeather.TEMP));
-        textCurrentTempDetail.setText(
-                CurrentWeather.data.get(CurrentWeather.TEMP)+
-                        ",MAX:"+CurrentWeather.data.get(CurrentWeather.TEMP_MAX)+
-                        ",MIN:"+CurrentWeather.data.get(CurrentWeather.TEMP_MIN)
-        );
+        textCurrentTempMin.setText(CurrentWeather.data.get(CurrentWeather.TEMP_MIN));
+        textCurrentTempMax.setText(CurrentWeather.data.get(CurrentWeather.TEMP_MAX));
         textCurrentWind.setText(CurrentWeather.data.get(CurrentWeather.WIND));
         textCurrentVisibility.setText(CurrentWeather.data.get(CurrentWeather.VISIBILITY));
     }
@@ -127,19 +127,25 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         try {
             Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+            lat = location.getLatitude();
+            lon = location.getLongitude();
             address = addresses.get(0).getAddressLine(0);
-            Log.d("MainActivity.", location.getLatitude()+","+location.getLongitude());
+            country = addresses.get(0).getCountryName();
         }catch (Exception e){
             e.printStackTrace();
         }
         //String url = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
        try{
-           String url = "https://api.openweathermap.org/data/2.5/weather?lat=37.421998333333335&lon=-122.084&appid=0afc41116086771ceea4c08d88916501";
+           String url = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
+           url += "lat=" + lat;
+           url += "&lon=" + lon;
+           url += "&units=metric";
+           url += JsonHandlerThread.OPEN_WEATHER_KEY;
            th = new JsonHandlerThread(url);
            th.start();
            th.join();
            CurrentWeather.setData(th.getResult());
-           Log.d(this.tag, CurrentWeather.data.get(CurrentWeather.WEATHER));
+           Log.d(tag, CurrentWeather.data.get(CurrentWeather.WEATHER));
            setTextCurrentWeather();
        } catch (Exception e){
            e.printStackTrace();

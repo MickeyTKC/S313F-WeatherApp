@@ -11,6 +11,7 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_view_history">Weather history</string>
-
-    <string name="current_detail">Detail</string>
+    <string name="current_temp_header">Temperature</string>
+    <string name="current_wind_header">Wind Speed (m/s)</string>
+    <string name="current_temp_visibility_header">Visibility (km)</string>
 </resources>
