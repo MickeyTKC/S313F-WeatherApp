@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,11 +47,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     public static JsonHandlerThread th;
     TextView textCurrentDate;
     TextView textCurrentAddress;
+    TextView textCurrentDescription;
     TextView textCurrentTemp;
     TextView textCurrentTempMin;
     TextView textCurrentTempMax;
     TextView textCurrentWind;
     TextView textCurrentVisibility;
+    ImageView imageCurrentIcon;
     LocationManager locationManager;
 
     @Override
@@ -84,12 +87,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         // Find view by id
         textCurrentDate = findViewById(R.id.textCurrentDate);
         textCurrentAddress = findViewById(R.id.textCurrentAddress);
+        textCurrentDescription = findViewById(R.id.textCurrentDescription);
         textCurrentTemp = findViewById(R.id.textCurrentTemp);
         textCurrentTempMin = findViewById(R.id.textCurrentTempMin);
         textCurrentTempMax = findViewById(R.id.textCurrentTempMax);
         textCurrentWind = findViewById(R.id.textCurrentWind);
         textCurrentVisibility = findViewById(R.id.textCurrentVisibility);
-
+        imageCurrentIcon = findViewById(R.id.imageCurrentIcon);
         // Get GPS Permission
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
@@ -110,16 +114,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         }
 
     }
-    public void setTextCurrentWeather() {
+    public void setCurrentWeather() {
         Date now = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         textCurrentDate.setText(df.format(now));
         textCurrentAddress.setText(country);
+        textCurrentDescription.setText(CurrentWeather.data.get(CurrentWeather.DESCRIPTION));
         textCurrentTemp.setText(CurrentWeather.data.get(CurrentWeather.TEMP));
         textCurrentTempMin.setText(CurrentWeather.data.get(CurrentWeather.TEMP_MIN));
         textCurrentTempMax.setText(CurrentWeather.data.get(CurrentWeather.TEMP_MAX));
         textCurrentWind.setText(CurrentWeather.data.get(CurrentWeather.WIND));
         textCurrentVisibility.setText(CurrentWeather.data.get(CurrentWeather.VISIBILITY));
+        imageCurrentIcon.setImageResource(CurrentWeather.getIconSource());
     }
     @Override
     public void onLocationChanged(Location location) {
@@ -146,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
            th.join();
            CurrentWeather.setData(th.getResult());
            Log.d(tag, CurrentWeather.data.get(CurrentWeather.WEATHER));
-           setTextCurrentWeather();
+           setCurrentWeather();
        } catch (Exception e){
            e.printStackTrace();
        }

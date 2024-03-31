@@ -7,15 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.databinding.FragmentHomeBinding;
 import com.example.myapplication.model.CurrentWeather;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,11 +46,13 @@ public class HomeFragment extends Fragment {
         // Declare TextView
         final TextView textCurrentDate = binding.textCurrentDate;
         final TextView textCurrentAddress = binding.textCurrentAddress;
+        final TextView textCurrentDescription = binding.textCurrentDescription;
         final TextView textCurrentTemp = binding.textCurrentTemp;
         final TextView textCurrentTempMin = binding.textCurrentTempMin;
         final TextView textCurrentTempMax = binding.textCurrentTempMax;
         final TextView textCurrentWind = binding.textCurrentWind;
         final TextView textCurrentVisibility = binding.textCurrentVisibility;
+        final ImageView imageCurrentIcon = binding.imageCurrentIcon;
         // SetText to TextView
         homeViewModel.getCurrentDate().observe(getViewLifecycleOwner(), text->{
             Date now = Calendar.getInstance().getTime();
@@ -55,6 +61,9 @@ public class HomeFragment extends Fragment {
         });
         homeViewModel.getCurrentAddress().observe(getViewLifecycleOwner(), text->{
             textCurrentAddress.setText(MainActivity.country);
+        });
+        homeViewModel.getCurrentDescription().observe(getViewLifecycleOwner(), text->{
+            textCurrentDescription.setText(CurrentWeather.data.get(CurrentWeather.DESCRIPTION));
         });
         homeViewModel.getCurrentTemp().observe(getViewLifecycleOwner(), text->{
             textCurrentTemp.setText(CurrentWeather.data.get(CurrentWeather.TEMP));
@@ -72,6 +81,12 @@ public class HomeFragment extends Fragment {
         });
         homeViewModel.getCurrentVisibility().observe(getViewLifecycleOwner(), text->{
             textCurrentVisibility.setText(CurrentWeather.data.get(CurrentWeather.VISIBILITY));
+        });
+        homeViewModel.getImageResource().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer resourceId) {
+                imageCurrentIcon.setImageResource(CurrentWeather.getIconSource());
+            }
         });
     }
 
