@@ -27,4 +27,5 @@ public class ViewHistoryFragment extends Fragment {
         viewHistoryModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
+
 }

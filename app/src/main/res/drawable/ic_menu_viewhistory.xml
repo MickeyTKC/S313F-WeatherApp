@@ -1,15 +1,9 @@
-<!-- ic_menu_viewhistory.xml -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24.0"
     android:viewportHeight="24.0">
-
     <path
-        android:fillColor="#000000"
-        android:pathData="M10,2V6H6V8H10V12L14,9L10,6V10H4V4H10V2Z" />
-    <path
-        android:fillColor="#000000"
-        android:pathData="M18,16H6V14H18V16Z" />
-
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zm0,18c-4.41,0 -8,-3.59 -8,-8s3.59,-8 8,-8 8,3.59 8,8 -3.59,8 -8,8zm-3,-12h6v2H9v-2zm0,4h6v2H9v-2zm0,4h6v2H9v-2z"/>
 </vector>

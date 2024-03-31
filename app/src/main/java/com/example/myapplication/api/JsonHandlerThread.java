@@ -26,7 +26,9 @@ public class JsonHandlerThread extends Thread {
     public static final String OPEN_WEATHER_CURRENT = "weather?";
     public static final String OPEN_WEATHER_FORECAST = "forecast/?";
     public static final String OPEN_WEATHER_KEY = "&appid=0afc41116086771ceea4c08d88916501";
-    public static final String OPEN_METEO_BASE = "/";
+    public static final String OPEN_METEO_BASE = "https://archive-api.open-meteo.com/v1/";
+
+    public static final String OPEN_METEO_HISTORICAL = "archive?";
     // URL to get contacts JSON file
     private String jsonUrl = "";
     private JSONObject res;
