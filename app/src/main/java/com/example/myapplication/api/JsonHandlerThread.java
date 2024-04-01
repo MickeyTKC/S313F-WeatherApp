@@ -92,8 +92,7 @@ public class JsonHandlerThread extends Thread {
         Log.e(TAG, "Response from url: " + contactStr);
         if (contactStr != null) {
             try {
-                JSONObject jsonObj = new JSONObject(contactStr);
-                this.res = jsonObj;
+                this.res = new JSONObject(contactStr);
             } catch (final JSONException e) {
                 Log.e(TAG, "Json parsing error: " + e.getMessage());
             }
