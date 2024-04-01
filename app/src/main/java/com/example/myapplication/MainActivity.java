@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     public static String address;
     public static String country;
     public static JsonHandlerThread th;
+
+    public static JsonHandlerThread historical;
     TextView textCurrentDate;
     TextView textCurrentAddress;
     TextView textCurrentDescription;
@@ -127,6 +129,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         textCurrentVisibility.setText(CurrentWeather.data.get(CurrentWeather.VISIBILITY));
         imageCurrentIcon.setImageResource(CurrentWeather.getIconSource());
     }
+
+    public void setHistoricalWeather(){
+        Date now = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        textCurrentDate.setText(df.format(now));
+        textCurrentAddress.setText(country);
+        textCurrentDescription.setText(CurrentWeather.data.get(CurrentWeather.DESCRIPTION));
+        textCurrentTemp.setText(CurrentWeather.data.get(CurrentWeather.TEMP));
+        textCurrentTempMin.setText(CurrentWeather.data.get(CurrentWeather.TEMP_MIN));
+        textCurrentTempMax.setText(CurrentWeather.data.get(CurrentWeather.TEMP_MAX));
+        textCurrentWind.setText(CurrentWeather.data.get(CurrentWeather.WIND));
+        textCurrentVisibility.setText(CurrentWeather.data.get(CurrentWeather.VISIBILITY));
+        imageCurrentIcon.setImageResource(CurrentWeather.getIconSource());
+    }
     @Override
     public void onLocationChanged(Location location) {
         Toast.makeText(this, ""+location.getLatitude()+","+location.getLongitude(), Toast.LENGTH_SHORT).show();
@@ -153,6 +169,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
            CurrentWeather.setData(th.getResult());
            Log.d(tag, CurrentWeather.data.get(CurrentWeather.WEATHER));
            setCurrentWeather();
+
+           //Historical api setup
+           String historical_url = JsonHandlerThread.OPEN_METEO_BASE;
+           historical_url += "latitude=52.52";
+           historical_url += "&lonitude=13.41";
+           historical_url += "hourly=temperature_2m";
+           historical_url += "&past_days=7";
+           historical = new JsonHandlerThread(historical_url);
+           historical.start();
+           historical.join();
+           HistoricalWeather.setData(historical.getResult());
+           setHistoricalWeather();
        } catch (Exception e){
            e.printStackTrace();
        }

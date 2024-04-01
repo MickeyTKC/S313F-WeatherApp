@@ -53,6 +53,7 @@ public class HomeFragment extends Fragment {
         final TextView textCurrentWind = binding.textCurrentWind;
         final TextView textCurrentVisibility = binding.textCurrentVisibility;
         final ImageView imageCurrentIcon = binding.imageCurrentIcon;
+
         // SetText to TextView
         homeViewModel.getCurrentDate().observe(getViewLifecycleOwner(), text->{
             Date now = Calendar.getInstance().getTime();
