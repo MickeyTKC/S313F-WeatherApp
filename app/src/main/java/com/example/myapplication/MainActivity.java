@@ -44,8 +44,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     public static double lon;
     public static String address;
     public static String country;
+
+    public static JsonHandlerThread th;
+
+    public static JsonHandlerThread historical;
+
     public static JsonHandlerThread currentThread;
     public static JsonHandlerThread forecastThread;
+
     TextView textCurrentDate;
     TextView textCurrentAddress;
     TextView textCurrentDescription;
@@ -128,6 +134,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         textCurrentVisibility.setText(CurrentWeather.data.get(CurrentWeather.VISIBILITY));
         imageCurrentIcon.setImageResource(CurrentWeather.getIconSource());
     }
+
+    public void setHistoricalWeather(){
+        Date now = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        textCurrentDate.setText(df.format(now));
+        textCurrentAddress.setText(country);
+        textCurrentDescription.setText(CurrentWeather.data.get(CurrentWeather.DESCRIPTION));
+        textCurrentTemp.setText(CurrentWeather.data.get(CurrentWeather.TEMP));
+        textCurrentTempMin.setText(CurrentWeather.data.get(CurrentWeather.TEMP_MIN));
+        textCurrentTempMax.setText(CurrentWeather.data.get(CurrentWeather.TEMP_MAX));
+        textCurrentWind.setText(CurrentWeather.data.get(CurrentWeather.WIND));
+        textCurrentVisibility.setText(CurrentWeather.data.get(CurrentWeather.VISIBILITY));
+        imageCurrentIcon.setImageResource(CurrentWeather.getIconSource());
+    }
     @Override
     public void onLocationChanged(Location location) {
         Toast.makeText(this, ""+location.getLatitude()+","+location.getLongitude(), Toast.LENGTH_SHORT).show();
@@ -153,6 +173,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
            currentThread.join();
            CurrentWeather.setData(currentThread.getResult());
            setCurrentWeather();
+
+
+           //Historical api setup
+           String historical_url = JsonHandlerThread.OPEN_METEO_BASE;
+           historical_url += "latitude=52.52";
+           historical_url += "&lonitude=13.41";
+           historical_url += "hourly=temperature_2m";
+           historical_url += "&past_days=7";
+           historical = new JsonHandlerThread(historical_url);
+           historical.start();
+           historical.join();
+           HistoricalWeather.setData(historical.getResult());
+           setHistoricalWeather();
+
            Log.d(tag, CurrentWeather.data.get(CurrentWeather.WEATHER));
            String forecastURL = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_FORECAST;
            forecastURL += "lat=" + lat;
@@ -197,4 +231,43 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_language_english) {
+            setAppLocale("en");
+            recreate(); 
+            return true;
+        } else if (id == R.id.action_language_french) {
+            setAppLocale("fr");
+            recreate(); 
+            return true;
+        } else if (id == R.id.action_language_chinese) {
+            setAppLocale("zh");
+            recreate(); 
+            return true;
+        } else if (id == R.id.action_language_japanese) {
+            setAppLocale("jp");
+            recreate(); 
+            return true;
+        } else if (id == R.id.action_language_korean) {
+            setAppLocale("ko");
+            recreate(); 
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setAppLocale(String languageCode) {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+
+        Configuration configuration = getResources().getConfiguration();
+        configuration.setLocale(locale);
+        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+    }
+    
 }
