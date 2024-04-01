@@ -197,4 +197,43 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_language_english) {
+            setAppLocale("en");
+            recreate(); 
+            return true;
+        } else if (id == R.id.action_language_french) {
+            setAppLocale("fr");
+            recreate(); 
+            return true;
+        } else if (id == R.id.action_language_chinese) {
+            setAppLocale("zh");
+            recreate(); 
+            return true;
+        } else if (id == R.id.action_language_japanese) {
+            setAppLocale("ja");
+            recreate(); 
+            return true;
+        } else if (id == R.id.action_language_korean) {
+            setAppLocale("ko");
+            recreate(); 
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setAppLocale(String languageCode) {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+
+        Configuration configuration = getResources().getConfiguration();
+        configuration.setLocale(locale);
+        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+    }
+    
 }
