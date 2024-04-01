@@ -4,19 +4,23 @@ import android.util.Log;
 
 import com.example.myapplication.R;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
 public class HistoricalWeather {
     private static String tag = "HistoricalWeather";
-    public static String WEATHER = "weather";
+    public static String WEATHER = "weather_code";
+    public static String DAILY = "daily";
+
+    public static String TIME = "time";
     public static String MAIN = "main";
     public static String DESCRIPTION = "description";
     public static String ICON = "icon";
     public static String TEMP = "temp";
-    public static String TEMP_MAX = "temp_max";
-    public static String TEMP_MIN = "temp_min";
+    public static String TEMP_MAX = "temperature_2m_max";
+    public static String TEMP_MIN = "temperature_2m_min";
     public static String WIND = "wind";
     public static String SPEED = "speed";
     public static String VISIBILITY = "visibility";
@@ -72,29 +76,25 @@ public class HistoricalWeather {
             return R.mipmap.few_clouds_d_foreground;
         }
     }
-    public static void setData(JSONObject jsonObj) throws org.json.JSONException{
-        // Convert to Java Data
-        JSONObject weather = jsonObj.getJSONArray(WEATHER).getJSONObject(0);
-        JSONObject temp = jsonObj.getJSONObject(MAIN);
-        JSONObject wind = jsonObj.getJSONObject(WIND);
-        String visibility = jsonObj.getString(VISIBILITY);
-        // put JSON weather.main
-        data.put(WEATHER , weather.getString(MAIN));
-        // put JSON weather.description
-        data.put(DESCRIPTION , weather.getString(DESCRIPTION).toUpperCase());
-        // put JSON weather.icon
-        data.put(ICON, weather.getString(ICON));
-        // put JSON main.temp
-        data.put(TEMP, temp.getString(TEMP));
-        // put JSON main.temp_max
-        data.put(TEMP_MAX, temp.getString(TEMP_MAX));
-        // put JSON main.temp_min
-        data.put(TEMP_MIN, temp.getString(TEMP_MIN));
-        // put JSON wind.speed
-        data.put(WIND , wind.getString(SPEED));
-        // put JSON visibility
-        double vist = (Math.round(Double.parseDouble(visibility) / 10) / 100);
-        data.put(VISIBILITY , ""+vist);
-        Log.d(tag,data.toString());
+    public static void setData(JSONObject jsonObj) throws org.json.JSONException {
+        // Clear the data hashmap
+        data.clear();
+
+        // Fetch the required data from the JSON object
+        JSONArray dailyArray = jsonObj.getJSONObject("daily").getJSONArray("time");
+        JSONArray tempMaxArray = jsonObj.getJSONObject("daily").getJSONArray("temperature_2m_max");
+        JSONArray tempMinArray = jsonObj.getJSONObject("daily").getJSONArray("temperature_2m_min");
+
+        // Get the temperature data for the past 7 days
+        for (int i = 0; i < dailyArray.length(); i++) {
+            String tempMax = tempMaxArray.getDouble(i) + "°C";
+            String tempMin = tempMinArray.getDouble(i) + "°C";
+            String time = dailyArray.getString(i);
+
+            // Add the temperature data to the hashmap
+            data.put(TIME + i, time);
+            data.put(TEMP_MAX + i, tempMax);
+            data.put(TEMP_MIN + i, tempMin);
+        }
     }
 }

@@ -3,9 +3,11 @@ package com.example.myapplication;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.*;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Button;
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 
     public static JsonHandlerThread th;
 
-    public static JsonHandlerThread historical;
+    public static JsonHandlerThread historicalThread;
 
     public static JsonHandlerThread currentThread;
     public static JsonHandlerThread forecastThread;
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     TextView textCurrentTempMax;
     TextView textCurrentWind;
     TextView textCurrentVisibility;
+
+    TextView textHistorical_TempMin;
     ImageView imageCurrentIcon;
     LocationManager locationManager;
 
@@ -136,17 +140,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     }
 
     public void setHistoricalWeather(){
-        Date now = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-        textCurrentDate.setText(df.format(now));
-        textCurrentAddress.setText(country);
-        textCurrentDescription.setText(CurrentWeather.data.get(CurrentWeather.DESCRIPTION));
-        textCurrentTemp.setText(CurrentWeather.data.get(CurrentWeather.TEMP));
-        textCurrentTempMin.setText(CurrentWeather.data.get(CurrentWeather.TEMP_MIN));
-        textCurrentTempMax.setText(CurrentWeather.data.get(CurrentWeather.TEMP_MAX));
-        textCurrentWind.setText(CurrentWeather.data.get(CurrentWeather.WIND));
-        textCurrentVisibility.setText(CurrentWeather.data.get(CurrentWeather.VISIBILITY));
-        imageCurrentIcon.setImageResource(CurrentWeather.getIconSource());
+        textHistorical_TempMin.setText(HistoricalWeather.data.get(HistoricalWeather.TEMP_MIN));
     }
     @Override
     public void onLocationChanged(Location location) {
@@ -176,15 +170,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 
 
            //Historical api setup
-           String historical_url = JsonHandlerThread.OPEN_METEO_BASE;
-           historical_url += "latitude=52.52";
-           historical_url += "&lonitude=13.41";
-           historical_url += "hourly=temperature_2m";
+           String historical_url = JsonHandlerThread.OPEN_METEO_BASE + JsonHandlerThread.OPEN_WEATHER_FORECAST;
+           historical_url += "latitude=" + lat;
+           historical_url += "&longitude=" + lon;
+           historical_url += "&daily=temperature_2m_max";
+           historical_url += ",temperature_2m_min";
            historical_url += "&past_days=7";
-           historical = new JsonHandlerThread(historical_url);
-           historical.start();
-           historical.join();
-           HistoricalWeather.setData(historical.getResult());
+           String tryUrl = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=temperature_2m_max,temperature_2m_min&past_days=7";
+           historicalThread = new JsonHandlerThread(tryUrl);
+           historicalThread.start();
+           historicalThread.join();
+           HistoricalWeather.setData(historicalThread.getResult());
+           Log.d(tag, HistoricalWeather.data.toString());
            setHistoricalWeather();
 
            Log.d(tag, CurrentWeather.data.get(CurrentWeather.WEATHER));

@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.myapplication.model.CurrentWeather;
 import com.example.myapplication.model.HistoricalWeather;
 
 public class ViewHistoryModel extends ViewModel {
     private final MutableLiveData<String> mText;
     private final MutableLiveData<String> tempMin;
+
     public ViewHistoryModel() {
         mText = new MutableLiveData<>();
         tempMin = new MutableLiveData<>();
