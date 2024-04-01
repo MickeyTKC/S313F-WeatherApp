@@ -44,9 +44,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     public static double lon;
     public static String address;
     public static String country;
+
     public static JsonHandlerThread th;
 
     public static JsonHandlerThread historical;
+
+    public static JsonHandlerThread currentThread;
+    public static JsonHandlerThread forecastThread;
+
     TextView textCurrentDate;
     TextView textCurrentAddress;
     TextView textCurrentDescription;
@@ -158,17 +163,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         }
         //String url = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
        try{
-           String url = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
-           url += "lat=" + lat;
-           url += "&lon=" + lon;
-           url += "&units=metric";
-           url += JsonHandlerThread.OPEN_WEATHER_KEY;
-           th = new JsonHandlerThread(url);
-           th.start();
-           th.join();
-           CurrentWeather.setData(th.getResult());
-           Log.d(tag, CurrentWeather.data.get(CurrentWeather.WEATHER));
+           String currentURL = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
+           currentURL += "lat=" + lat;
+           currentURL += "&lon=" + lon;
+           currentURL += "&units=metric";
+           currentURL += JsonHandlerThread.OPEN_WEATHER_KEY;
+           currentThread = new JsonHandlerThread(currentURL);
+           currentThread.start();
+           currentThread.join();
+           CurrentWeather.setData(currentThread.getResult());
            setCurrentWeather();
+
 
            //Historical api setup
            String historical_url = JsonHandlerThread.OPEN_METEO_BASE;
@@ -181,6 +186,19 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
            historical.join();
            HistoricalWeather.setData(historical.getResult());
            setHistoricalWeather();
+
+           Log.d(tag, CurrentWeather.data.get(CurrentWeather.WEATHER));
+           String forecastURL = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_FORECAST;
+           forecastURL += "lat=" + lat;
+           forecastURL += "&lon=" + lon;
+           forecastURL += "&units=metric";
+           forecastURL += JsonHandlerThread.OPEN_WEATHER_KEY;
+           forecastThread = new JsonHandlerThread(forecastURL);
+           forecastThread.start();
+           forecastThread.join();
+           ForecastWeather.setData(forecastThread.getResult());
+           Log.d(tag, ForecastWeather.data.toString());
+
        } catch (Exception e){
            e.printStackTrace();
        }
@@ -213,4 +231,43 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_language_english) {
+            setAppLocale("en");
+            recreate(); 
+            return true;
+        } else if (id == R.id.action_language_french) {
+            setAppLocale("fr");
+            recreate(); 
+            return true;
+        } else if (id == R.id.action_language_chinese) {
+            setAppLocale("zh");
+            recreate(); 
+            return true;
+        } else if (id == R.id.action_language_japanese) {
+            setAppLocale("jp");
+            recreate(); 
+            return true;
+        } else if (id == R.id.action_language_korean) {
+            setAppLocale("ko");
+            recreate(); 
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setAppLocale(String languageCode) {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+
+        Configuration configuration = getResources().getConfiguration();
+        configuration.setLocale(locale);
+        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+    }
+    
 }
