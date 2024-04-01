@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     public static double lon;
     public static String address;
     public static String country;
-    public static JsonHandlerThread th;
+    public static JsonHandlerThread currentThread;
+    public static JsonHandlerThread forecastThread;
     TextView textCurrentDate;
     TextView textCurrentAddress;
     TextView textCurrentDescription;
@@ -142,17 +143,28 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         }
         //String url = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
        try{
-           String url = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
-           url += "lat=" + lat;
-           url += "&lon=" + lon;
-           url += "&units=metric";
-           url += JsonHandlerThread.OPEN_WEATHER_KEY;
-           th = new JsonHandlerThread(url);
-           th.start();
-           th.join();
-           CurrentWeather.setData(th.getResult());
-           Log.d(tag, CurrentWeather.data.get(CurrentWeather.WEATHER));
+           String currentURL = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
+           currentURL += "lat=" + lat;
+           currentURL += "&lon=" + lon;
+           currentURL += "&units=metric";
+           currentURL += JsonHandlerThread.OPEN_WEATHER_KEY;
+           currentThread = new JsonHandlerThread(currentURL);
+           currentThread.start();
+           currentThread.join();
+           CurrentWeather.setData(currentThread.getResult());
            setCurrentWeather();
+           Log.d(tag, CurrentWeather.data.get(CurrentWeather.WEATHER));
+           String forecastURL = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_FORECAST;
+           forecastURL += "lat=" + lat;
+           forecastURL += "&lon=" + lon;
+           forecastURL += "&units=metric";
+           forecastURL += JsonHandlerThread.OPEN_WEATHER_KEY;
+           forecastThread = new JsonHandlerThread(forecastURL);
+           forecastThread.start();
+           forecastThread.join();
+           ForecastWeather.setData(forecastThread.getResult());
+           Log.d(tag, ForecastWeather.data.toString());
+
        } catch (Exception e){
            e.printStackTrace();
        }
