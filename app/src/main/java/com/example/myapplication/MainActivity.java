@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
             recreate(); 
             return true;
         } else if (id == R.id.action_language_japanese) {
-            setAppLocale("ja");
+            setAppLocale("jp");
             recreate(); 
             return true;
         } else if (id == R.id.action_language_korean) {
