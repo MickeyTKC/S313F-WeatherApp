@@ -1,7 +1,6 @@
 package com.example.myapplication.model;
 
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.example.myapplication.R;
 
