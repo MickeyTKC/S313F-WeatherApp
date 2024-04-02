@@ -105,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         textCurrentWind = findViewById(R.id.textCurrentWind);
         textCurrentVisibility = findViewById(R.id.textCurrentVisibility);
         imageCurrentIcon = findViewById(R.id.imageCurrentIcon);
+
+        textHistorical_TempMin = findViewById(R.id.minTemp);
         // Get GPS Permission
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){

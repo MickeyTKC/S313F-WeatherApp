@@ -84,6 +84,7 @@ public class HistoricalWeather {
         JSONArray dailyArray = jsonObj.getJSONObject("daily").getJSONArray("time");
         JSONArray tempMaxArray = jsonObj.getJSONObject("daily").getJSONArray("temperature_2m_max");
         JSONArray tempMinArray = jsonObj.getJSONObject("daily").getJSONArray("temperature_2m_min");
+        String test = tempMinArray.getString(0);
 
         // Get the temperature data for the past 7 days
         for (int i = 0; i < dailyArray.length(); i++) {

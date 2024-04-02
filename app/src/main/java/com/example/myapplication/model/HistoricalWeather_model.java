@@ -3,15 +3,15 @@ package com.example.myapplication.model;
 public class HistoricalWeather_model {
     private double lat =0;
     private double lon =0;
-    private String hourly_tem;
+    private double min_temp;
 
     public HistoricalWeather_model(){}
 
     public HistoricalWeather_model(double lat, double lon,
-                                   String hourly_tem){
+                                   double min_temp){
         this.lat = lat;
         this.lon = lon;
-        this.hourly_tem = hourly_tem;
+        this.min_temp = min_temp;
     }
 
     public double getLat() {
@@ -30,11 +30,11 @@ public class HistoricalWeather_model {
         this.lon = lon;
     }
 
-    public String getHourly_tem() {
-        return hourly_tem;
+    public double getMin_temp() {
+        return min_temp;
     }
 
-    public void setHourly_tem(String hourly_tem) {
-        this.hourly_tem = hourly_tem;
+    public void setMin_temp(double min_temp) {
+        this.min_temp = min_temp;
     }
 }
