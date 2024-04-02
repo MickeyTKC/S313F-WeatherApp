@@ -69,6 +69,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     ImageView imageCurrentIcon;
     LocationManager locationManager;
 
+    TextView textForecastTime1,textForecastTime2,textForecastTime3,textForecastTime4;
+    TextView textForecastTemp1,textForecastTemp2,textForecastTemp3,textForecastTemp4;
+    ImageView imageForecast1, imageForecast2,imageForecast3,imageForecast4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +111,19 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         textCurrentWind = findViewById(R.id.textCurrentWind);
         textCurrentVisibility = findViewById(R.id.textCurrentVisibility);
         imageCurrentIcon = findViewById(R.id.imageCurrentIcon);
+        textForecastTime1 = findViewById(R.id.textForecastTime1);
+        textForecastTime2 = findViewById(R.id.textForecastTime2);
+        textForecastTime3 = findViewById(R.id.textForecastTime3);
+        textForecastTime4 = findViewById(R.id.textForecastTime4);
+        textForecastTemp1 = findViewById(R.id.textForecastTemp1);
+        textForecastTemp2 = findViewById(R.id.textForecastTemp2);
+        textForecastTemp3 = findViewById(R.id.textForecastTemp3);
+        textForecastTemp4 = findViewById(R.id.textForecastTemp4);
+        imageForecast1 = findViewById(R.id.imageForecast1);
+        imageForecast2 = findViewById(R.id.imageForecast2);
+        imageForecast3 = findViewById(R.id.imageForecast3);
+        imageForecast4 = findViewById(R.id.imageForecast4);
+
 
 
         // Get GPS Permission
@@ -143,6 +160,31 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         imageCurrentIcon.setImageResource(CurrentWeather.getIconSource());
     }
 
+    public void setForecastWeather() {
+        Calendar c = Calendar.getInstance();
+        Date now = c.getTime();
+        SimpleDateFormat dm = new SimpleDateFormat("dd-MMM", Locale.getDefault());
+        c.add(Calendar.DAY_OF_YEAR, 1);
+        textForecastTime1.setText(dm.format(c.getTime()));
+        c.add(Calendar.DAY_OF_YEAR, 1);
+        textForecastTime2.setText(dm.format(c.getTime()));
+        c.add(Calendar.DAY_OF_YEAR, 1);
+        textForecastTime3.setText(dm.format(c.getTime()));
+        c.add(Calendar.DAY_OF_YEAR, 1);
+        textForecastTime4.setText(dm.format(c.getTime()));
+        //imageForecast1.setValue(ForecastWeather.data.get(ForecastWeather.ICON));
+        Log.d("HomeModel Forecast",ForecastWeather.data.get(0).toString());
+        textForecastTemp1.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(0).get(ForecastWeather.TEMP));
+        textForecastTemp2.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(1).get(ForecastWeather.TEMP));
+        textForecastTemp3.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(2).get(ForecastWeather.TEMP));
+        textForecastTemp4.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(3).get(ForecastWeather.TEMP));
+        imageForecast1.setImageResource(ForecastWeather.getIconSource(0));
+        imageForecast2.setImageResource(ForecastWeather.getIconSource(1));
+        imageForecast3.setImageResource(ForecastWeather.getIconSource(2));
+        imageForecast4.setImageResource(ForecastWeather.getIconSource(3));
+
+    }
+
     public void setHistoricalWeather(){
         textHistorical_TempMin.setText(HistoricalWeather.data.get(HistoricalWeather.TEMP_MIN));
         textHistorical_TempMax.setText(HistoricalWeather.data.get(HistoricalWeather.TEMP_MAX));
@@ -174,6 +216,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
            setCurrentWeather();
 
 
+           Log.d(tag, CurrentWeather.data.get(CurrentWeather.WEATHER));
+           String forecastURL = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_FORECAST;
+           forecastURL += "lat=" + lat;
+           forecastURL += "&lon=" + lon;
+           forecastURL += "&units=metric";
+           forecastURL += JsonHandlerThread.OPEN_WEATHER_KEY;
+           forecastThread = new JsonHandlerThread(forecastURL);
+           forecastThread.start();
+           forecastThread.join();
+           ForecastWeather.setData(forecastThread.getResult());
+           Log.d(tag, ForecastWeather.data.toString());
+           setForecastWeather();
+
+
            //Historical api setup
            String historical_url = JsonHandlerThread.OPEN_METEO_BASE + JsonHandlerThread.OPEN_WEATHER_FORECAST;
            historical_url += "latitude=" + lat;
@@ -189,17 +245,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
            Log.d(tag, HistoricalWeather.data.toString());
            setHistoricalWeather();
 
-           Log.d(tag, CurrentWeather.data.get(CurrentWeather.WEATHER));
-           String forecastURL = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_FORECAST;
-           forecastURL += "lat=" + lat;
-           forecastURL += "&lon=" + lon;
-           forecastURL += "&units=metric";
-           forecastURL += JsonHandlerThread.OPEN_WEATHER_KEY;
-           forecastThread = new JsonHandlerThread(forecastURL);
-           forecastThread.start();
-           forecastThread.join();
-           ForecastWeather.setData(forecastThread.getResult());
-           Log.d(tag, ForecastWeather.data.toString());
 
        } catch (Exception e){
            e.printStackTrace();
