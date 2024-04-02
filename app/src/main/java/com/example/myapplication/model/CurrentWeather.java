@@ -22,24 +22,24 @@ public class CurrentWeather {
     public static String SPEED = "speed";
     public static String VISIBILITY = "visibility";
     // Icon Constance
-    private static final String CLEAR_SKY_D = "01d.png";
-    private static final String FEW_CLOUDS_D = "02d.png";
-    private static final String SCATTERED_CLOUDS_D = "03d.png";
-    private static final String BROKEN_CLOUDS_D = "04d.png";
-    private static final String SHOWER_RAIN_D = "09d.png";
-    private static final String RAIN_D = "10d.png";
-    private static final String THUNDERSTORM_D = "11d.png";
-    private static final String SNOW_D = "13d.png";
-    private static final String MIST_D = "50d.png";
-    private static final String CLEAR_SKY_N = "01n.png";
-    private static final String FEW_CLOUDS_N = "02n.png";
-    private static final String SCATTERED_CLOUDS_N = "03n.png";
-    private static final String BROKEN_CLOUDS_N = "04n.png";
-    private static final String SHOWER_RAIN_N = "09n.png";
-    private static final String RAIN_N = "10n.png";
-    private static final String THUNDERSTORM_N = "11n.png";
-    private static final String SNOW_N = "13n.png";
-    private static final String MIST_N = "50n.png";
+    private static final String CLEAR_SKY_D = "01d";
+    private static final String FEW_CLOUDS_D = "02d";
+    private static final String SCATTERED_CLOUDS_D = "03d";
+    private static final String BROKEN_CLOUDS_D = "04d";
+    private static final String SHOWER_RAIN_D = "09d";
+    private static final String RAIN_D = "10d";
+    private static final String THUNDERSTORM_D = "11d";
+    private static final String SNOW_D = "13d";
+    private static final String MIST_D = "50d";
+    private static final String CLEAR_SKY_N = "01n";
+    private static final String FEW_CLOUDS_N = "02n";
+    private static final String SCATTERED_CLOUDS_N = "03n";
+    private static final String BROKEN_CLOUDS_N = "04n";
+    private static final String SHOWER_RAIN_N = "09n";
+    private static final String RAIN_N = "10n";
+    private static final String THUNDERSTORM_N = "11n";
+    private static final String SNOW_N = "13n";
+    private static final String MIST_N = "50n";
     //Data
     public static HashMap<String, String> data = new HashMap<>();
     public CurrentWeather() {}
