@@ -88,8 +88,8 @@ public class HistoricalWeather {
 
         // Get the temperature data for the past 7 days
         for (int i = 0; i < dailyArray.length(); i++) {
-            String tempMax = tempMaxArray.getDouble(i) + "°C";
-            String tempMin = tempMinArray.getDouble(i) + "°C";
+            String tempMax = tempMaxArray.getDouble(i) + "";
+            String tempMin = tempMinArray.getDouble(i) + "";
             String time = dailyArray.getString(i);
 
             // Add the temperature data to the hashmap

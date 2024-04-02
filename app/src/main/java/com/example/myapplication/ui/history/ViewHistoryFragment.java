@@ -32,7 +32,31 @@ public class ViewHistoryFragment extends Fragment {
     }
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         viewHistoryModel = new ViewModelProvider(this).get(ViewHistoryModel.class);
-        final TextView textMinTemp = binding.minTemp;
+        ArrayList<TextView> textMin = new ArrayList<>();
+        textMin.add(binding.minTempMon);
+        textMin.add(binding.minTempTue);
+        textMin.add(binding.minTempWed);
+        textMin.add(binding.minTempThu);
+        textMin.add(binding.minTempFri);
+        textMin.add(binding.minTempSat);
+        textMin.add(binding.minTempSun);
+            viewHistoryModel.getTempMin().observe(getViewLifecycleOwner(), text -> {
+                for(int i = 0; i < 7; i++){
+                    String tempMinKey = HistoricalWeather.TEMP_MIN + i;
+                    String tempMinValue = HistoricalWeather.data.get(tempMinKey);
+                    TextView textMinDay = textMin.get(i);
+                    if (tempMinValue != null) {
+                        textMinDay.append(tempMinValue);
+                        Log.d("ViewHistoryFragment", "minTemp value: " + tempMinValue);
+                    }else {
+                        Log.d("ViewHistoryFragment", "minTemp value is null");
+                    }
+                    textMinDay.setText(tempMinValue);
+                }
+            });
+
+
+        /*
         viewHistoryModel.getTempMin().observe(getViewLifecycleOwner(), text -> {
             StringBuilder minTempValuesBuilder = new StringBuilder();
             for (int index = 0; index < 7; index++) {
@@ -47,7 +71,7 @@ public class ViewHistoryFragment extends Fragment {
             }
             String minTempValues = minTempValuesBuilder.toString().trim();
             textMinTemp.setText(minTempValues);
-        });
+        });*/
     }
     @Override
     public void onDestroyView() {
