@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.databinding.FragmentHomeBinding;
 import com.example.myapplication.model.CurrentWeather;
+import com.example.myapplication.model.ForecastWeather;
 
 import org.w3c.dom.Text;
 
@@ -53,6 +54,18 @@ public class HomeFragment extends Fragment {
         final TextView textCurrentWind = binding.textCurrentWind;
         final TextView textCurrentVisibility = binding.textCurrentVisibility;
         final ImageView imageCurrentIcon = binding.imageCurrentIcon;
+        final TextView textForecastTime1 = binding.textForecastTime1;
+        final TextView textForecastTime2 = binding.textForecastTime2;
+        final TextView textForecastTime3 = binding.textForecastTime3;
+        final TextView textForecastTime4 = binding.textForecastTime4;
+        final ImageView imageForecast1 = binding.imageForecast1;
+        final ImageView imageForecast2 = binding.imageForecast2;
+        final ImageView imageForecast3 = binding.imageForecast3;
+        final ImageView imageForecast4 = binding.imageForecast4;
+        final TextView textForecastTemp1 = binding.textForecastTemp1;
+        final TextView textForecastTemp2 = binding.textForecastTemp2;
+        final TextView textForecastTemp3 = binding.textForecastTemp3;
+        final TextView textForecastTemp4 = binding.textForecastTemp4;
 
         // SetText to TextView
         homeViewModel.getCurrentDate().observe(getViewLifecycleOwner(), text->{
@@ -87,6 +100,70 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(Integer resourceId) {
                 imageCurrentIcon.setImageResource(CurrentWeather.getIconSource());
+            }
+        });
+        homeViewModel.getForecastTime1().observe(getViewLifecycleOwner(), text->{
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DAY_OF_YEAR, 1);
+            Date date = c.getTime();
+            SimpleDateFormat df = new SimpleDateFormat("dd-MMM", Locale.getDefault());
+            textForecastTime1.setText(df.format(date));
+        });
+        homeViewModel.getForecastTime2().observe(getViewLifecycleOwner(), text->{
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DAY_OF_YEAR, 2);
+            Date date = c.getTime();
+            SimpleDateFormat df = new SimpleDateFormat("dd-MMM", Locale.getDefault());
+            textForecastTime2.setText(df.format(date));
+        });
+        homeViewModel.getForecastTime3().observe(getViewLifecycleOwner(), text->{
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DAY_OF_YEAR, 3);
+            Date date = c.getTime();
+            SimpleDateFormat df = new SimpleDateFormat("dd-MMM", Locale.getDefault());
+            textForecastTime3.setText(df.format(date));
+        });
+        homeViewModel.getForecastTime4().observe(getViewLifecycleOwner(), text->{
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DAY_OF_YEAR, 4);
+            Date date = c.getTime();
+            SimpleDateFormat df = new SimpleDateFormat("dd-MMM", Locale.getDefault());
+            textForecastTime4.setText(df.format(date));
+        });
+        homeViewModel.getForecastTemp1().observe(getViewLifecycleOwner(), text->{
+            textForecastTemp1.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(0).get(ForecastWeather.TEMP));
+        });
+        homeViewModel.getForecastTemp2().observe(getViewLifecycleOwner(), text->{
+            textForecastTemp2.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(1).get(ForecastWeather.TEMP));
+        });
+        homeViewModel.getForecastTemp3().observe(getViewLifecycleOwner(), text->{
+            textForecastTemp3.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(2).get(ForecastWeather.TEMP));
+        });
+        homeViewModel.getForecastTemp4().observe(getViewLifecycleOwner(), text->{
+            textForecastTemp4.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(3).get(ForecastWeather.TEMP));
+        });
+        homeViewModel.getForecastImg1().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer resourceId) {
+                imageForecast1.setImageResource(ForecastWeather.getIconSource(0));
+            }
+        });
+        homeViewModel.getForecastImg2().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer resourceId) {
+                imageForecast2.setImageResource(ForecastWeather.getIconSource(1));
+            }
+        });
+        homeViewModel.getForecastImg3().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer resourceId) {
+                imageForecast3.setImageResource(ForecastWeather.getIconSource(2));
+            }
+        });
+        homeViewModel.getForecastImg4().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer resourceId) {
+                imageForecast4.setImageResource(ForecastWeather.getIconSource(3));
             }
         });
     }
