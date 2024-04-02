@@ -14,4 +14,5 @@
     <string name="current_temp_header">Temperature</string>
     <string name="current_wind_header">Wind Speed (m/s)</string>
     <string name="current_temp_visibility_header">Visibility (km)</string>
+    <string name="current_forecast_header">Forecast</string>
 </resources>

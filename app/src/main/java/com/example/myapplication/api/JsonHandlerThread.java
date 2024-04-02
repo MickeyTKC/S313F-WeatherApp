@@ -39,9 +39,6 @@ public class JsonHandlerThread extends Thread {
 
 
     // send request to the url, no need to be changed
-    public void setLocValue(double lat, double lon){
-        jsonUrl = "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid=0afc41116086771ceea4c08d88916501";
-    }
 
     public static String makeRequest(String jsonUrl) {
         String response = null;
