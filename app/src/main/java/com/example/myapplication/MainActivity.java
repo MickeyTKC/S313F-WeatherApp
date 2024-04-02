@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     TextView textCurrentVisibility;
 
     TextView textHistorical_TempMin;
+
+    TextView textHistorical_TempMax;
     ImageView imageCurrentIcon;
     LocationManager locationManager;
 
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         textCurrentVisibility = findViewById(R.id.textCurrentVisibility);
         imageCurrentIcon = findViewById(R.id.imageCurrentIcon);
 
-        textHistorical_TempMin = findViewById(R.id.minTempMon);
+
         // Get GPS Permission
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
@@ -143,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 
     public void setHistoricalWeather(){
         textHistorical_TempMin.setText(HistoricalWeather.data.get(HistoricalWeather.TEMP_MIN));
+        textHistorical_TempMax.setText(HistoricalWeather.data.get(HistoricalWeather.TEMP_MAX));
     }
     @Override
     public void onLocationChanged(Location location) {
@@ -178,8 +181,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
            historical_url += "&daily=temperature_2m_max";
            historical_url += ",temperature_2m_min";
            historical_url += "&past_days=7";
-           String tryUrl = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=temperature_2m_max,temperature_2m_min&past_days=7";
-           historicalThread = new JsonHandlerThread(tryUrl);
+           //String tryUrl = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=temperature_2m_max,temperature_2m_min&past_days=7";
+           historicalThread = new JsonHandlerThread(historical_url);
            historicalThread.start();
            historicalThread.join();
            HistoricalWeather.setData(historicalThread.getResult());

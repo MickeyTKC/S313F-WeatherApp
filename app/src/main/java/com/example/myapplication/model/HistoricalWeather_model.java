@@ -5,13 +5,16 @@ public class HistoricalWeather_model {
     private double lon =0;
     private double min_temp;
 
+    private double max_temp;
+
     public HistoricalWeather_model(){}
 
     public HistoricalWeather_model(double lat, double lon,
-                                   double min_temp){
+                                   double min_temp,double max_temp){
         this.lat = lat;
         this.lon = lon;
         this.min_temp = min_temp;
+        this.max_temp = max_temp;
     }
 
     public double getLat() {
@@ -36,5 +39,13 @@ public class HistoricalWeather_model {
 
     public void setMin_temp(double min_temp) {
         this.min_temp = min_temp;
+    }
+
+    public double getMax_temp() {
+        return max_temp;
+    }
+
+    public void setMax_temp(double max_temp) {
+        this.max_temp = max_temp;
     }
 }

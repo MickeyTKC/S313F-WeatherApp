@@ -32,6 +32,8 @@ public class ViewHistoryFragment extends Fragment {
     }
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         viewHistoryModel = new ViewModelProvider(this).get(ViewHistoryModel.class);
+
+        //Minimum temperature of past 7 days
         ArrayList<TextView> textMin = new ArrayList<>();
         textMin.add(binding.minTempMon);
         textMin.add(binding.minTempTue);
@@ -40,38 +42,50 @@ public class ViewHistoryFragment extends Fragment {
         textMin.add(binding.minTempFri);
         textMin.add(binding.minTempSat);
         textMin.add(binding.minTempSun);
-            viewHistoryModel.getTempMin().observe(getViewLifecycleOwner(), text -> {
-                for(int i = 0; i < 7; i++){
-                    String tempMinKey = HistoricalWeather.TEMP_MIN + i;
-                    String tempMinValue = HistoricalWeather.data.get(tempMinKey);
-                    TextView textMinDay = textMin.get(i);
-                    if (tempMinValue != null) {
-                        textMinDay.append(tempMinValue);
-                        Log.d("ViewHistoryFragment", "minTemp value: " + tempMinValue);
-                    }else {
-                        Log.d("ViewHistoryFragment", "minTemp value is null");
-                    }
-                    textMinDay.setText(tempMinValue);
-                }
-            });
 
+        //Maximum temperature for past 7 days
+        ArrayList<TextView> textMax = new ArrayList<>();
+        textMax.add(binding.maxTempMon);
+        textMax.add(binding.maxTempTue);
+        textMax.add(binding.maxTempWed);
+        textMax.add(binding.maxTempThu);
+        textMax.add(binding.maxTempFri);
+        textMax.add(binding.maxTempSat);
+        textMax.add(binding.maxTempSun);
 
-        /*
         viewHistoryModel.getTempMin().observe(getViewLifecycleOwner(), text -> {
-            StringBuilder minTempValuesBuilder = new StringBuilder();
-            for (int index = 0; index < 7; index++) {
-                String tempMinKey = HistoricalWeather.TEMP_MIN + index;
+            for(int i = 0; i < 7; i++){
+
+                String tempMinKey = HistoricalWeather.TEMP_MIN + i;
                 String tempMinValue = HistoricalWeather.data.get(tempMinKey);
+                TextView textMinDay = textMin.get(i);
+
                 if (tempMinValue != null) {
-                    minTempValuesBuilder.append(tempMinValue).append(" ");
+                    textMinDay.append(tempMinValue);
+
                     Log.d("ViewHistoryFragment", "minTemp value: " + tempMinValue);
-                } else {
+
+                }else {
                     Log.d("ViewHistoryFragment", "minTemp value is null");
                 }
+                textMinDay.setText(tempMinValue);
             }
-            String minTempValues = minTempValuesBuilder.toString().trim();
-            textMinTemp.setText(minTempValues);
-        });*/
+        });
+
+        viewHistoryModel.getTempMax().observe(getViewLifecycleOwner(), text -> {
+            for(int i = 0; i < 7; i++){
+                String tempMaxKey = HistoricalWeather.TEMP_MAX + i;
+                String tempMaxValue = HistoricalWeather.data.get(tempMaxKey);
+                TextView textMaxDay = textMax.get(i);
+                if (tempMaxValue != null) {
+                    textMaxDay.append(tempMaxValue);
+                    Log.d("ViewHistoryFragment", "maxTemp value: " + tempMaxValue);
+                }else {
+                    Log.d("ViewHistoryFragment", "maxTemp value is null");
+                }
+                textMaxDay.setText(tempMaxValue);
+            }
+        });
     }
     @Override
     public void onDestroyView() {

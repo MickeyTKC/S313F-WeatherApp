@@ -25,7 +25,9 @@ public class ViewHistoryModel extends ViewModel {
         tempMax = new MutableLiveData<>();
         mText.setValue("This is view history fragment");
         tempMin.setValue(HistoricalWeather.data.get(HistoricalWeather.TEMP_MIN));
+        tempMax.setValue(HistoricalWeather.data.get(HistoricalWeather.TEMP_MAX));
         Log.d("Test temp min", HistoricalWeather.TEMP_MIN);
+        Log.d("Test temp max", HistoricalWeather.TEMP_MAX);
     }
 
     public LiveData<String> getText() {

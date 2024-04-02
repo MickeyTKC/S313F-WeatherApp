@@ -121,7 +121,51 @@
                     android:gravity="center"/>
 
             </TableRow>
+            <TableRow>
 
+                <TextView
+                    android:id="@+id/maxText"
+                    android:text="Max(°C)"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+                <!-- Add TextViews for the remaining days of the week -->
+                <TextView
+                    android:id="@+id/maxTempMon"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/maxTempTue"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/maxTempWed"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/maxTempThu"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/maxTempFri"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/maxTempSat"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/maxTempSun"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+            </TableRow>
         </TableLayout>
     </LinearLayout>
 
