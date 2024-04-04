@@ -2,34 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding = "10sp">
 
     <TextView
         android:id="@+id/text_language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Language:"
+        android:text="@string/setting_lang_header"
         android:textSize="24sp"/>
 
     <Spinner
         android:id="@+id/spinner_language"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:entries="@array/setting_language"/>
+        android:paddingTop="10sp"
+        android:paddingBottom="10sp"
+        android:entries="@array/setting_language"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/text_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24sp"
-        android:text="Temp:" />
+        android:text="@string/current_temp_header" />
 
     <RadioGroup
         android:id="@+id/radio_group_temp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <RadioButton
             android:id="@+id/radio_celsius"
@@ -37,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="18sp"
-            android:text="C" />
+            android:text="@string/setting_temp_c" />
 
         <RadioButton
             android:id="@+id/radio_fahrenheit"
@@ -45,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="18sp"
-            android:text="F" />
+            android:text="@string/setting_temp_f" />
     </RadioGroup>
 
     <TextView
@@ -53,13 +56,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24sp"
-        android:text="Theme:" />
+        android:text="@string/setting_theme_header" />
 
     <RadioGroup
         android:id="@+id/radio_group_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <RadioButton
             android:id="@+id/radio_light"

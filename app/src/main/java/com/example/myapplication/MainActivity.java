@@ -2,7 +2,9 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.*;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
@@ -77,9 +80,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Get Pref
+        SharedPreferences sharedPreferences = this.getSharedPreferences("Setting",MODE_PRIVATE);
+        String lang = sharedPreferences.getString(SettingActivity.LANG,"en");
+        setAppLocale(lang);
         // Data binding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        if(sharedPreferences.getString(SettingActivity.THEME,"L").equals("D"))
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         setSupportActionBar(binding.appBarMain.toolbar);
 
         // SettingActivity button
@@ -125,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         imageForecast2 = findViewById(R.id.imageForecast2);
         imageForecast3 = findViewById(R.id.imageForecast3);
         imageForecast4 = findViewById(R.id.imageForecast4);
-
         // Get GPS Permission
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
@@ -276,36 +287,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            //Toast.makeText(this, "After Setting", Toast.LENGTH_SHORT).show();
+            recreate();
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.action_settings){
             Intent setting = new Intent(this, SettingActivity.class);
-            startActivity(setting);
+            startActivityForResult(setting,0);
         }
-        if (id == R.id.action_language_english) {
-            setAppLocale("en");
-            recreate(); 
-            return true;
-        } else if (id == R.id.action_language_french) {
-            setAppLocale("fr");
-            recreate(); 
-            return true;
-        } else if (id == R.id.action_language_chinese) {
-            setAppLocale("zh");
-            recreate(); 
-            return true;
-        } else if (id == R.id.action_language_japanese) {
-            setAppLocale("jp");
-            recreate(); 
-            return true;
-        } else if (id == R.id.action_language_korean) {
-            setAppLocale("ko");
-            recreate(); 
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

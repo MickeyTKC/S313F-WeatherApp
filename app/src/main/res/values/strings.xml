@@ -18,9 +18,14 @@
     <string name="current_wind_header">Wind Speed (m/s)</string>
     <string name="current_temp_visibility_header">Visibility (km)</string>
     <string name="current_forecast_header">Forecast</string>
+    <string name="setting_lang_header">Language</string>
     <string-array name="setting_language">
         <item>English</item>
         <item>Chinese</item>
         <item>Japanese</item>
     </string-array>
+    <string name="setting_temp_header">Tempeure</string>
+    <string name="setting_temp_c">Celsius</string>
+    <string name="setting_temp_f">Fahrenheit</string>
+    <string name="setting_theme_header">Theme</string>
 </resources>
