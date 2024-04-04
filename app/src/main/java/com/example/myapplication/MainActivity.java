@@ -191,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     }
     @Override
     public void onLocationChanged(Location location) {
-        Toast.makeText(this, ""+location.getLatitude()+","+location.getLongitude(), Toast.LENGTH_SHORT).show();
         try {
             Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
@@ -202,7 +201,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         }catch (Exception e){
             e.printStackTrace();
         }
-        //String url = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
        try{
            String currentURL = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
            currentURL += "lat=" + lat;
