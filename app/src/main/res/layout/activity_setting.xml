@@ -8,35 +8,43 @@
         android:id="@+id/text_language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Language:" />
+        android:text="Language:"
+        android:textSize="24sp"/>
 
     <Spinner
         android:id="@+id/spinner_language"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="24sp"
         android:entries="@array/setting_language"/>
 
     <TextView
         android:id="@+id/text_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="24sp"
         android:text="Temp:" />
 
     <RadioGroup
         android:id="@+id/radio_group_temp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radio_celsius"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
             android:text="C" />
 
         <RadioButton
             android:id="@+id/radio_fahrenheit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
             android:text="F" />
     </RadioGroup>
 
@@ -44,23 +52,29 @@
         android:id="@+id/text_theme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="24sp"
         android:text="Theme:" />
 
     <RadioGroup
         android:id="@+id/radio_group_theme"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radio_light"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
             android:text="Light" />
 
         <RadioButton
             android:id="@+id/radio_dark"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
             android:text="Dark" />
     </RadioGroup>
 

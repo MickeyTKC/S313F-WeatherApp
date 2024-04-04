@@ -126,8 +126,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         imageForecast3 = findViewById(R.id.imageForecast3);
         imageForecast4 = findViewById(R.id.imageForecast4);
 
-
-
         // Get GPS Permission
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
@@ -136,8 +134,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
             },100);
         }
         getLocation();
+        Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show();
     }
-
     @SuppressLint("MissingPermission")
     private void getLocation() {
         try {
