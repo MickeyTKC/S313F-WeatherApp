@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 
 
            //Historical api setup
-           String historical_url = JsonHandlerThread.OPEN_METEO_BASE + JsonHandlerThread.OPEN_WEATHER_FORECAST;
+           String historical_url = JsonHandlerThread.OPEN_METEO_BASE + JsonHandlerThread.OPEN_METEO_HISTORICAL;
            historical_url += "latitude=" + lat;
            historical_url += "&longitude=" + lon;
            historical_url += "&daily=temperature_2m_max";
