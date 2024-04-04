@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.*;
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarMain.toolbar);
 
-        // Setting button
+        // SettingActivity button
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -280,7 +281,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
+        if(id == R.id.action_settings){
+            Intent setting = new Intent(this, SettingActivity.class);
+            startActivity(setting);
+        }
         if (id == R.id.action_language_english) {
             setAppLocale("en");
             recreate(); 
