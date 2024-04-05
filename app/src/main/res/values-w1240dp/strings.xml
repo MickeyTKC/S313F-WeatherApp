@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setting_location_header">Location</string>
+    <string name="my_location">My Location</string>
+    <string name="search_location">Search Location</string>
+</resources>

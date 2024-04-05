@@ -4,6 +4,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding = "10sp">
+    <TextView
+        android:id="@+id/text_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/setting_location_header"
+        android:textSize="24sp"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radioButton_my_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_location" />
+
+        <RadioButton
+            android:id="@+id/radioButton_search_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_location" />
+
+    </RadioGroup>
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_location"
+        android:completionThreshold="1"
+        android:inputType="text"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/text_language"
