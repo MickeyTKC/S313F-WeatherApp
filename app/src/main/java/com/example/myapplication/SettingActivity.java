@@ -118,16 +118,19 @@ public class SettingActivity extends AppCompatActivity {
 
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 Toast.makeText (SettingActivity.this, "RadioGroup changed", Toast.LENGTH_SHORT).show ();
-                if (checkedId == R.id.radioButton_search_location) {
-                    autoCompleteTextView.setVisibility (View.VISIBLE);
-                    editor.putBoolean ("isRadioButton_search_locationChecked", true); // 将"valueKey"替换为您的键
-                } else {
+                if (checkedId == R.id.radioButton_my_location){
                     autoCompleteTextView.setVisibility (View.GONE);
-                    editor.putBoolean ("isRadioButton_search_locationChecked", false); // 将"valueKey"替换为您的键
-
+                    setvalue (isRadioButton_search_locationChecked,false);
+                    editor.putBoolean ("isRadioButton_search_locationChecked", isRadioButton_search_locationChecked); // 将"valueKey"替换为您的键
+                    Toast.makeText (SettingActivity.this, "upLoading sharedPreferences="+isRadioButton_search_locationChecked, Toast.LENGTH_SHORT).show ();
+                } else if (checkedId == R.id.radioButton_search_location) {
+                    autoCompleteTextView.setVisibility (View.VISIBLE);
+                    setvalue (isRadioButton_search_locationChecked,true);
+                    editor.putBoolean ("isRadioButton_search_locationChecked", isRadioButton_search_locationChecked); // 将"valueKey"替换为您的键
+                    Toast.makeText (SettingActivity.this, "upLoading sharedPreferences="+isRadioButton_search_locationChecked, Toast.LENGTH_SHORT).show ();
                 }
                 editor.apply ();
-                Toast.makeText (SettingActivity.this, "upLoading sharedPreferences", Toast.LENGTH_SHORT).show ();
+
             }
         });
 
@@ -182,6 +185,7 @@ public class SettingActivity extends AppCompatActivity {
                     String inputText = autoCompleteTextView.getText ().toString ();
                     // 使用最终输入的 inputText 执行操作
                     editor.putString ("UserInput", inputText); // 将"valueKey"替换为您的键
+                    Toast.makeText (SettingActivity.this, "upLoading sharedPreferences="+inputText, Toast.LENGTH_SHORT).show ();
                     editor.apply ();
                     return true;
                 }
@@ -195,6 +199,7 @@ public class SettingActivity extends AppCompatActivity {
                 String selectedItem = parent.getItemAtPosition (position).toString ();
                 // 使用所选的建议选项 selectedItem 执行操作
                 editor.putString ("UserInput", selectedItem); // 将"valueKey"替换为您的键
+                Toast.makeText (SettingActivity.this, "upLoading sharedPreferences="+selectedItem, Toast.LENGTH_SHORT).show ();
                 editor.apply ();
             }
         });
@@ -253,5 +258,9 @@ public class SettingActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected (item);
+    }
+
+    public void setvalue(boolean a,boolean value){
+         a=value;
     }
 }
