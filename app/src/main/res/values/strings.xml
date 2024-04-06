@@ -10,6 +10,7 @@
     <string name="app_font_header">24sp</string>
     <string name="app_font_content">18sp</string>
     <string name="menu_home">Current Weather</string>
+    <string name="menu_forecast">Forecast Weather</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_view_history">Weather history</string>
