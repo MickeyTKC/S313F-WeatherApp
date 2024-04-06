@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
         Log.d("onViewCreated","Testing");
         // Declare TextView
         final TextView textCurrentDate = binding.textCurrentDate;
-        final TextView textCurrentAddress = binding.textCurrentAddress;
+        final TextView textCurrentCountry = binding.textCurrentCountry;
         final TextView textCurrentDescription = binding.textCurrentDescription;
         final TextView textCurrentTemp = binding.textCurrentTemp;
         final TextView textCurrentTempMin = binding.textCurrentTempMin;
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
             textCurrentDate.setText(df.format(now));
         });
         homeViewModel.getCurrentAddress().observe(getViewLifecycleOwner(), text->{
-            textCurrentAddress.setText(MainActivity.country);
+            textCurrentCountry.setText(MainActivity.country);
         });
         homeViewModel.getCurrentDescription().observe(getViewLifecycleOwner(), text->{
             textCurrentDescription.setText(CurrentWeather.data.get(CurrentWeather.DESCRIPTION));

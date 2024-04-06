@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,12 +34,9 @@ import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.api.*;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import com.example.myapplication.model.*;
-
-import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
     //data sharing
@@ -62,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public static JsonHandlerThread forecastThread;
 
     TextView textCurrentDate;
-    TextView textCurrentAddress;
+    TextView textCurrentContry;
+    TextView textCurrentAdress;
     TextView textCurrentDescription;
     TextView textCurrentTemp;
     TextView textCurrentTempMin;
@@ -120,7 +116,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         NavigationUI.setupWithNavController (navigationView, navController);
         // Find view by id
         textCurrentDate = findViewById (R.id.textCurrentDate);
-        textCurrentAddress = findViewById (R.id.textCurrentAddress);
+        textCurrentContry = findViewById (R.id.textCurrentCountry);
+        textCurrentAdress = findViewById (R.id.textCurrentAdress);
         textCurrentDescription = findViewById (R.id.textCurrentDescription);
         textCurrentTemp = findViewById (R.id.textCurrentTemp);
         textCurrentTempMin = findViewById (R.id.textCurrentTempMin);
@@ -166,7 +163,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         Date now = Calendar.getInstance ().getTime ();
         SimpleDateFormat df = new SimpleDateFormat ("dd-MMM-yyyy", Locale.getDefault ());
         textCurrentDate.setText (df.format (now));
-        textCurrentAddress.setText (country);
+        textCurrentAdress.setText (address);
+        textCurrentContry.setText (country);
         textCurrentDescription.setText (CurrentWeather.data.get (CurrentWeather.DESCRIPTION));
         textCurrentTemp.setText (CurrentWeather.data.get (CurrentWeather.TEMP));
         textCurrentTempMin.setText (CurrentWeather.data.get (CurrentWeather.TEMP_MIN));
@@ -218,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 List<Address> addresses = geocoder.getFromLocation (location.getLatitude (), location.getLongitude (), 1);
                 lat = location.getLatitude ();
                 lon = location.getLongitude ();
-                address = addresses.get (0).getAddressLine (0);
+                address = addresses.get (0).getLocality();
                 country = addresses.get (0).getCountryName ();
             } else {
                 Toast.makeText (this, "isRadioButton_search_locationChecked=1"+isRadioButton_search_locationChecked, Toast.LENGTH_SHORT).show ();
@@ -227,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 List<Address> addresses = geocoder.getFromLocationName (UserInput, 1);
                 lat = addresses.get (0).getLatitude ();
                 lon = addresses.get (0).getLongitude ();
-                address = addresses.get (0).getAddressLine (0);
+                address = addresses.get (0).getLocality();
                 country = addresses.get (0).getCountryName ();
                 Toast.makeText (this, "loading data="+UserInput, Toast.LENGTH_SHORT).show ();
             }
