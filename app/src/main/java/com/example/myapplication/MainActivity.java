@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,8 +15,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,8 +82,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     TextView textForecastTime1, textForecastTime2, textForecastTime3, textForecastTime4;
     TextView textForecastTemp1, textForecastTemp2, textForecastTemp3, textForecastTemp4;
     ImageView imageForecast1, imageForecast2, imageForecast3, imageForecast4;
+    ListView forecastList;
 
-    TextView textMinTemp,textMaxTemp,time;
+    ListView historyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,11 +149,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         imageForecast2 = findViewById (R.id.imageForecast2);
         imageForecast3 = findViewById (R.id.imageForecast3);
         imageForecast4 = findViewById (R.id.imageForecast4);
-
+        forecastList = findViewById(R.id.forecast_list);
         //History
-        textMinTemp = findViewById(R.id.minTemp);
-        textMaxTemp = findViewById(R.id.maxTemp);
-        time = findViewById(R.id.time);
+        historyList = findViewById(R.id.historical_list);
         // Get GPS Permission
         if (ContextCompat.checkSelfPermission (MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -174,44 +177,88 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void setCurrentWeather() {
         Date now = Calendar.getInstance ().getTime ();
         SimpleDateFormat df = new SimpleDateFormat ("dd-MMM-yyyy", Locale.getDefault ());
-        textCurrentDate.setText (df.format (now));
-        textCurrentAddress.setText (country);
-        textCurrentDescription.setText (CurrentWeather.data.get (CurrentWeather.DESCRIPTION));
-        textCurrentTemp.setText (CurrentWeather.data.get (CurrentWeather.TEMP));
-        textCurrentTempMin.setText (CurrentWeather.data.get (CurrentWeather.TEMP_MIN));
-        textCurrentTempMax.setText (CurrentWeather.data.get (CurrentWeather.TEMP_MAX));
-        textCurrentWind.setText (CurrentWeather.data.get (CurrentWeather.WIND));
-        textCurrentVisibility.setText (CurrentWeather.data.get (CurrentWeather.VISIBILITY));
-        imageCurrentIcon.setImageResource (CurrentWeather.getIconSource ());
+        try{
+            textCurrentDate.setText (df.format (now));
+            textCurrentAddress.setText (country);
+            textCurrentDescription.setText (CurrentWeather.data.get (CurrentWeather.DESCRIPTION));
+            textCurrentTemp.setText (CurrentWeather.data.get (CurrentWeather.TEMP));
+            textCurrentTempMin.setText (CurrentWeather.data.get (CurrentWeather.TEMP_MIN));
+            textCurrentTempMax.setText (CurrentWeather.data.get (CurrentWeather.TEMP_MAX));
+            textCurrentWind.setText (CurrentWeather.data.get (CurrentWeather.WIND));
+            textCurrentVisibility.setText (CurrentWeather.data.get (CurrentWeather.VISIBILITY));
+            imageCurrentIcon.setImageResource (CurrentWeather.getIconSource ());
+        }catch (Exception e){}
     }
 
     public void setForecastWeather() {
-        Calendar c = Calendar.getInstance ();
-        Date now = c.getTime ();
-        SimpleDateFormat dm = new SimpleDateFormat ("dd-MMM", Locale.getDefault ());
-        c.add (Calendar.DAY_OF_YEAR, 1);
-        textForecastTime1.setText (dm.format (c.getTime ()));
-        c.add (Calendar.DAY_OF_YEAR, 1);
-        textForecastTime2.setText (dm.format (c.getTime ()));
-        c.add (Calendar.DAY_OF_YEAR, 1);
-        textForecastTime3.setText (dm.format (c.getTime ()));
-        c.add (Calendar.DAY_OF_YEAR, 1);
-        textForecastTime4.setText (dm.format (c.getTime ()));
-        //imageForecast1.setValue(ForecastWeather.data.get(ForecastWeather.ICON));
-        Log.d ("HomeModel Forecast", ForecastWeather.data.get (0).toString ());
-        textForecastTemp1.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (8).get (ForecastWeather.TEMP));
-        textForecastTemp2.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (16).get (ForecastWeather.TEMP));
-        textForecastTemp3.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (24).get (ForecastWeather.TEMP));
-        textForecastTemp4.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (32).get (ForecastWeather.TEMP));
-        imageForecast1.setImageResource (ForecastWeather.getIconSource (8));
-        imageForecast2.setImageResource (ForecastWeather.getIconSource (16));
-        imageForecast3.setImageResource (ForecastWeather.getIconSource (24));
-        imageForecast4.setImageResource (ForecastWeather.getIconSource (32));
-
+        try{
+            Calendar c = Calendar.getInstance ();
+            Date now = c.getTime ();
+            SimpleDateFormat dm = new SimpleDateFormat ("dd-MMM", Locale.getDefault ());
+            c.add (Calendar.DAY_OF_YEAR, 1);
+            textForecastTime1.setText (dm.format (c.getTime ()));
+            c.add (Calendar.DAY_OF_YEAR, 1);
+            textForecastTime2.setText (dm.format (c.getTime ()));
+            c.add (Calendar.DAY_OF_YEAR, 1);
+            textForecastTime3.setText (dm.format (c.getTime ()));
+            c.add (Calendar.DAY_OF_YEAR, 1);
+            textForecastTime4.setText (dm.format (c.getTime ()));
+            //imageForecast1.setValue(ForecastWeather.data.get(ForecastWeather.ICON));
+            //Log.d ("Main Forecast", ForecastWeather.data.get (0).toString ());
+            textForecastTemp1.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (8).get (ForecastWeather.TEMP));
+            textForecastTemp2.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (16).get (ForecastWeather.TEMP));
+            textForecastTemp3.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (24).get (ForecastWeather.TEMP));
+            textForecastTemp4.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (32).get (ForecastWeather.TEMP));
+            imageForecast1.setImageResource (ForecastWeather.getIconSource (8));
+            imageForecast2.setImageResource (ForecastWeather.getIconSource (16));
+            imageForecast3.setImageResource (ForecastWeather.getIconSource (24));
+            imageForecast4.setImageResource (ForecastWeather.getIconSource (32));
+        }catch (Exception e){}
+        try {
+            SimpleAdapter adapter = new SimpleAdapter(
+                    this,
+                    ForecastWeather.data,
+                    R.layout.forecast_list,
+                    new String[] { ForecastWeather.DT_TXT, ForecastWeather.DESCRIPTION, ForecastWeather.TEMP, ForecastWeather.ICON_SOURCE, ForecastWeather.WIND, ForecastWeather.VISIBILITY },
+                    new int[] { R.id.dt, R.id.weather, R.id.temp , R.id.imageForecastIcon, R.id.textForecastWind, R.id.textForecastVisibility}
+            );
+            Context ctx = this;
+            forecastList.setAdapter(adapter);
+            forecastList.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener() {
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            HashMap<String, String> f_data = ForecastWeather.data.get(position);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                            builder.setTitle(getResources().getString(R.string.current_forecast_header)+"\n" + f_data.get(ForecastWeather.DT_TXT));
+                            builder.setMessage(f_data.get(ForecastWeather.WEATHER)
+                                    + "\n" + getResources().getString(R.string.current_temp_header) +": "+ f_data.get(ForecastWeather.TEMP)
+                                    + "\n" + getResources().getString(R.string.current_wind_header) +": "+ f_data.get(ForecastWeather.WIND)
+                                    + "\n" + getResources().getString(R.string.current_temp_visibility_header) +": "+ f_data.get(ForecastWeather.VISIBILITY));
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+                        }
+                    }
+            );
+        }catch (Exception e){}
     }
 
     public void setHistoricalWeather() {
-
+        try {
+            SimpleAdapter adapter = new SimpleAdapter(
+                    this,
+                    HistoricalWeather.data,
+                    R.layout.historical_list,
+                    new String[] {
+                            HistoricalWeather.TIME,
+                            HistoricalWeather.TEMP_MIN,
+                            HistoricalWeather.TEMP_MAX,
+                            HistoricalWeather.RAIN,
+                            HistoricalWeather.WIND,
+                    },
+                    new int[] { R.id.time, R.id.minTemp, R.id.maxTemp, R.id.rainSum ,R.id.maxWind}
+            );
+            historyList.setAdapter(adapter);
+        }catch (Exception e){}
     }
 
     @Override
@@ -246,7 +293,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             String utype = "metric";
             if(unit.equals("F")) utype = "imperial";
             else utype = "metric";
-
             String currentURL = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
             currentURL += "lat=" + lat;
             currentURL += "&lon=" + lon;
@@ -257,22 +303,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             currentThread.start ();
             currentThread.join ();
             CurrentWeather.setUnit(unit);
-            CurrentWeather.setData (currentThread.getResult ());
+            CurrentWeather.setData (currentThread.getResult());
             setCurrentWeather ();
-
-
-            Log.d (tag, CurrentWeather.data.get (CurrentWeather.WEATHER));
+            //Log.d (tag, CurrentWeather.data.get (CurrentWeather.WEATHER));
             String forecastURL = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_FORECAST;
             forecastURL += "lat=" + lat;
             forecastURL += "&lon=" + lon;
             forecastURL += "&units=" + utype;
             forecastURL += "&lang=" + lang;
             forecastURL += JsonHandlerThread.OPEN_WEATHER_KEY;
+            //Log.d (tag, forecastURL);
             forecastThread = new JsonHandlerThread (forecastURL);
             forecastThread.start ();
             forecastThread.join ();
             ForecastWeather.setUnit(unit);
-            ForecastWeather.setData (forecastThread.getResult ());
+            Log.d (tag, forecastThread.getResult().toString());
+            ForecastWeather.setData (forecastThread.getResult());
             Log.d (tag, ForecastWeather.data.toString ());
             setForecastWeather ();
 
@@ -294,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             historicalThread.join ();
             HistoricalWeather.setUnit(unit);
             HistoricalWeather.setData (historicalThread.getResult ());
-            Log.d (tag, HistoricalWeather.data.toString ());
+            //Log.d (tag, HistoricalWeather.data.toString ());
             setHistoricalWeather ();
 
 

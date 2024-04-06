@@ -10,6 +10,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -50,6 +51,32 @@ public class ViewHistoryFragment extends Fragment {
         });
         return root;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ViewHistoryModel viewHistoryModel =
+                new ViewModelProvider(this).get(ViewHistoryModel.class);
+        View root = binding.getRoot();
+        final ListView listView = binding.historicalList;
+        viewHistoryModel.getList().observe(getViewLifecycleOwner(),list->{
+            SimpleAdapter adapter = new SimpleAdapter(
+                    this.getContext(),
+                    HistoricalWeather.data,
+                    R.layout.historical_list,
+                    new String[] {
+                            HistoricalWeather.TIME,
+                            HistoricalWeather.TEMP_MIN,
+                            HistoricalWeather.TEMP_MAX,
+                            HistoricalWeather.RAIN,
+                            HistoricalWeather.WIND,
+                    },
+                    new int[] { R.id.time, R.id.minTemp, R.id.maxTemp, R.id.rainSum ,R.id.maxWind}
+            );
+            listView.setAdapter(adapter);
+        });
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

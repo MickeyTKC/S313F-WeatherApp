@@ -108,6 +108,7 @@ public class ForecastWeather {
     }
     public static void setData(JSONObject jsonObj) throws org.json.JSONException{
         // Convert to Java Data
+        data = new ArrayList<>();
         JSONArray list = jsonObj.getJSONArray(LIST);
         if (list == null) return;
         for (int i=0; i<list.length(); i++){
