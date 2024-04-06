@@ -42,7 +42,12 @@ public class CurrentWeather {
     private static final String MIST_N = "50n";
     //Data
     public static HashMap<String, String> data = new HashMap<>();
+    public static String unit = "C";
     public CurrentWeather() {}
+    public static void setUnit(String u){
+        if (u.equals("F")) unit = "F";
+        else unit = "C";
+    }
     public static int getIconSource(){
         try {
             switch (data.get(CurrentWeather.ICON)){
@@ -84,11 +89,11 @@ public class CurrentWeather {
         // put JSON weather.icon
         data.put(ICON, weather.getString(ICON));
         // put JSON main.temp
-        data.put(TEMP, temp.getString(TEMP));
+        data.put(TEMP, temp.getString(TEMP) + "°" + unit);
         // put JSON main.temp_max
-        data.put(TEMP_MAX, temp.getString(TEMP_MAX));
+        data.put(TEMP_MAX, temp.getString(TEMP_MAX)+ "°" + unit);
         // put JSON main.temp_min
-        data.put(TEMP_MIN, temp.getString(TEMP_MIN));
+        data.put(TEMP_MIN, temp.getString(TEMP_MIN)+ "°" + unit);
         // put JSON wind.speed
         data.put(WIND , wind.getString(SPEED));
         // put JSON visibility

@@ -11,6 +11,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -30,6 +31,13 @@ public class ForecastFragment extends Fragment {
                 new ViewModelProvider(this).get(ForecastViewModel.class);
         binding = FragmentForecastBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        ForecastViewModel forecastViewModel =
+                new ViewModelProvider(this).get(ForecastViewModel.class);
         final ListView listView = binding.forecastList;
         forecastViewModel.getList().observe(getViewLifecycleOwner(),list->{
             SimpleAdapter adapter = new SimpleAdapter(
@@ -39,7 +47,6 @@ public class ForecastFragment extends Fragment {
                     new String[] { ForecastWeather.DT_TXT, ForecastWeather.DESCRIPTION, ForecastWeather.TEMP, ForecastWeather.ICON_SOURCE, ForecastWeather.WIND, ForecastWeather.VISIBILITY },
                     new int[] { R.id.dt, R.id.weather, R.id.temp , R.id.imageForecastIcon, R.id.textForecastWind, R.id.textForecastVisibility}
             );
-
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(
                     new AdapterView.OnItemClickListener() {
@@ -58,6 +65,5 @@ public class ForecastFragment extends Fragment {
             );
 
         });
-        return root;
     }
 }

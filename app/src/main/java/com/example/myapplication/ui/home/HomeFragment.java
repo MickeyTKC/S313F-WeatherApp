@@ -43,7 +43,6 @@ public class HomeFragment extends Fragment {
     }
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        Log.d("onViewCreated","Testing");
         // Declare TextView
         final TextView textCurrentDate = binding.textCurrentDate;
         final TextView textCurrentAddress = binding.textCurrentAddress;

@@ -243,9 +243,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             e.printStackTrace ();
         }
         try {
-            String utype = "";
-            if(unit == "C") utype = "metric";
-            else utype = "imperial";
+            String utype = "metric";
+            if(unit.equals("F")) utype = "imperial";
+            else utype = "metric";
 
             String currentURL = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
             currentURL += "lat=" + lat;
@@ -256,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             currentThread = new JsonHandlerThread (currentURL);
             currentThread.start ();
             currentThread.join ();
+            CurrentWeather.setUnit(unit);
             CurrentWeather.setData (currentThread.getResult ());
             setCurrentWeather ();
 
@@ -270,6 +271,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             forecastThread = new JsonHandlerThread (forecastURL);
             forecastThread.start ();
             forecastThread.join ();
+            ForecastWeather.setUnit(unit);
             ForecastWeather.setData (forecastThread.getResult ());
             Log.d (tag, ForecastWeather.data.toString ());
             setForecastWeather ();
@@ -290,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             historicalThread = new JsonHandlerThread (historical_url);
             historicalThread.start ();
             historicalThread.join ();
+            HistoricalWeather.setUnit(unit);
             HistoricalWeather.setData (historicalThread.getResult ());
             Log.d (tag, HistoricalWeather.data.toString ());
             setHistoricalWeather ();

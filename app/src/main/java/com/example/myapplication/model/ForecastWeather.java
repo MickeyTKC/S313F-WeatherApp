@@ -43,6 +43,11 @@ public class ForecastWeather {
     private static final String SNOW_N = "13n";
     private static final String MIST_N = "50n";
     public static ArrayList<HashMap<String, String>> data = new ArrayList<>();
+    public static String unit = "C";
+    public static void setUnit(String u){
+        if (u.equals("F")) unit = "F";
+        else unit = "C";
+    }
     public ForecastWeather() {}
     private static int getIconSourceByIcon(String icon){
         try {
@@ -121,11 +126,11 @@ public class ForecastWeather {
             tempData.put(ICON, weather.getString(ICON));
             tempData.put(ICON_SOURCE, String.valueOf(ForecastWeather.getIconSourceByIcon(weather.getString(ICON))));
             // put JSON main.temp
-            tempData.put(TEMP, temp.getString(TEMP));
+            tempData.put(TEMP, temp.getString(TEMP)+ "°" + unit);
             // put JSON main.temp_max
-            tempData.put(TEMP_MAX, temp.getString(TEMP_MAX));
+            tempData.put(TEMP_MAX, temp.getString(TEMP_MAX)+ "°" + unit);
             // put JSON main.temp_min
-            tempData.put(TEMP_MIN, temp.getString(TEMP_MIN));
+            tempData.put(TEMP_MIN, temp.getString(TEMP_MIN)+ "°" + unit);
             // put JSON wind.speed
             tempData.put(WIND , wind.getString(SPEED));
             tempData.put(DT_TXT, dt);

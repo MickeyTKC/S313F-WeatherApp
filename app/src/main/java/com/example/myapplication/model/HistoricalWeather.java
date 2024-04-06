@@ -21,8 +21,13 @@ public class HistoricalWeather {
     // Icon Constance
     //Data
     public static ArrayList<HashMap<String, String>> data = new ArrayList<>();
+    public static String unit = "C";
 
     public HistoricalWeather(){}
+    public static void setUnit(String u){
+        if (u.equals("F")) unit = "F";
+        else unit = "C";
+    }
 
     public static void setData(JSONObject jsonObj) throws org.json.JSONException {
         // Clear the data hashmap
@@ -38,8 +43,8 @@ public class HistoricalWeather {
         // Get the temperature data for the past 7 days
         for (int i = 7; i > 0; i--) {
             HashMap<String, String> tempData = new HashMap<>();
-            String tempMax = tempMaxArray.getDouble(i) + "";
-            String tempMin = tempMinArray.getDouble(i) + "";
+            String tempMax = tempMaxArray.getDouble(i) + "°" + unit;
+            String tempMin = tempMinArray.getDouble(i) + "°" + unit;
             String rain = rainArray.getDouble(i) + "";
             String wind = windArray.getDouble(i) + "";
             String time = dailyArray.getString(i);
