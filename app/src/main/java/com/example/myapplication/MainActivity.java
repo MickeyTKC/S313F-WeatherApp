@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public static String address;
     public static String country;
     public static String lang;
+    public static String unit;
 
     public static JsonHandlerThread th;
 
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         else {
             AppCompatDelegate.setDefaultNightMode (AppCompatDelegate.MODE_NIGHT_NO);
         }
+        unit = sharedPreferences.getString(SettingActivity.UNIT, "C");
         setSupportActionBar (binding.appBarMain.toolbar);
 
         // SettingActivity button
@@ -241,10 +243,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             e.printStackTrace ();
         }
         try {
+            String utype = "";
+            if(unit == "C") utype = "metric";
+            else utype = "imperial";
+
             String currentURL = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_CURRENT;
             currentURL += "lat=" + lat;
             currentURL += "&lon=" + lon;
-            currentURL += "&units=metric";
+            currentURL += "&units=" + utype;
             currentURL += "&lang=" + lang;
             currentURL += JsonHandlerThread.OPEN_WEATHER_KEY;
             currentThread = new JsonHandlerThread (currentURL);
@@ -258,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             String forecastURL = JsonHandlerThread.OPEN_WEATHER_BASE + JsonHandlerThread.OPEN_WEATHER_FORECAST;
             forecastURL += "lat=" + lat;
             forecastURL += "&lon=" + lon;
-            forecastURL += "&units=metric";
+            forecastURL += "&units=" + utype;
             forecastURL += "&lang=" + lang;
             forecastURL += JsonHandlerThread.OPEN_WEATHER_KEY;
             forecastThread = new JsonHandlerThread (forecastURL);
@@ -275,7 +281,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             historical_url += "&longitude=" + lon;
             historical_url += "&daily=temperature_2m_max";
             historical_url += ",temperature_2m_min";
+            historical_url += ",rain_sum";
+            historical_url += ",wind_speed_10m_max";
             historical_url += "&past_days=7";
+            if(unit != "C") historical_url += "&temperature_unit=fahrenheit";
             //String tryUrl = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=temperature_2m_max,temperature_2m_min&past_days=7";
 
             historicalThread = new JsonHandlerThread (historical_url);

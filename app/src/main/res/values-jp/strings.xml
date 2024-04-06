@@ -34,4 +34,8 @@
     <string name="setting_location_header">位置</string>
     <string name="my_location">我的位置</string>
     <string name="search_location">搜索位置</string>
+    <string name="history_tempmax_header">最高気温：</string>
+    <string name="history_tempmin_header">最低気温：</string>
+    <string name="history_rain_header">降水量（mm）：</string>
+    <string name="history_wind_header">最大風速（10m）：</string>
 </resources>

@@ -48,7 +48,7 @@ public class SettingActivity extends AppCompatActivity {
 
     public final static String LANG = "lang";
     public final static String LANG_INDEX = "langIndex";
-    public final static String TEMP_TYPE = "tempType";
+    public final static String UNIT = "unit";
     public final static String THEME = "theme";
     private String[] langs = {"en", "zh", "jp"};
     private int langIndex = 0;
@@ -76,7 +76,7 @@ public class SettingActivity extends AppCompatActivity {
         SharedPreferences pref = this.getSharedPreferences ("Setting", MODE_PRIVATE);
         langIndex = pref.getInt (LANG_INDEX, 0);
         spinLang.setSelection (langIndex);
-        if (pref.getString (TEMP_TYPE, "C").equals ("F")) {
+        if (pref.getString (UNIT, "C").equals ("F")) {
             radioF.setChecked (true);
         } else {
             radioC.setChecked (true);
@@ -374,9 +374,9 @@ public class SettingActivity extends AppCompatActivity {
         editor.putInt (LANG_INDEX, langIndex);
         //temp type
         if (radioC.isChecked ()) {
-            editor.putString (TEMP_TYPE, "C");
+            editor.putString (UNIT, "C");
         } else if (radioF.isChecked ()) {
-            editor.putString (TEMP_TYPE, "F");
+            editor.putString (UNIT, "F");
         }
         //theme
         if (radioDark.isChecked ()) {

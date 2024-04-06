@@ -37,8 +37,14 @@ public class ViewHistoryFragment extends Fragment {
                     this.getContext(),
                     HistoricalWeather.data,
                     R.layout.historical_list,
-                    new String[] { HistoricalWeather.TIME, HistoricalWeather.TEMP_MIN, HistoricalWeather.TEMP_MAX},
-                    new int[] { R.id.time, R.id.minTemp, R.id.maxTemp}
+                    new String[] {
+                            HistoricalWeather.TIME,
+                            HistoricalWeather.TEMP_MIN,
+                            HistoricalWeather.TEMP_MAX,
+                            HistoricalWeather.RAIN,
+                            HistoricalWeather.WIND,
+                    },
+                    new int[] { R.id.time, R.id.minTemp, R.id.maxTemp, R.id.rainSum ,R.id.maxWind}
             );
 
             listView.setAdapter(adapter);
