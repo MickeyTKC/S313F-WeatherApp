@@ -42,6 +42,7 @@ import java.util.*;
 import com.example.myapplication.model.*;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
     //data sharing
@@ -69,16 +70,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     TextView textCurrentTempMax;
     TextView textCurrentWind;
     TextView textCurrentVisibility;
-
-    TextView textHistorical_TempMin;
-
-    TextView textHistorical_TempMax;
     ImageView imageCurrentIcon;
     LocationManager locationManager;
 
     TextView textForecastTime1, textForecastTime2, textForecastTime3, textForecastTime4;
     TextView textForecastTemp1, textForecastTemp2, textForecastTemp3, textForecastTemp4;
     ImageView imageForecast1, imageForecast2, imageForecast3, imageForecast4;
+
+    TextView textMinTemp,textMaxTemp,time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         textCurrentWind = findViewById (R.id.textCurrentWind);
         textCurrentVisibility = findViewById (R.id.textCurrentVisibility);
         imageCurrentIcon = findViewById (R.id.imageCurrentIcon);
+
+        //Forecast
         textForecastTime1 = findViewById (R.id.textForecastTime1);
         textForecastTime2 = findViewById (R.id.textForecastTime2);
         textForecastTime3 = findViewById (R.id.textForecastTime3);
@@ -140,6 +141,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         imageForecast2 = findViewById (R.id.imageForecast2);
         imageForecast3 = findViewById (R.id.imageForecast3);
         imageForecast4 = findViewById (R.id.imageForecast4);
+
+        //History
+        textMinTemp = findViewById(R.id.minTemp);
+        textMaxTemp = findViewById(R.id.maxTemp);
+        time = findViewById(R.id.time);
         // Get GPS Permission
         if (ContextCompat.checkSelfPermission (MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -202,8 +208,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     public void setHistoricalWeather() {
-        textHistorical_TempMin.setText (HistoricalWeather.data.get (HistoricalWeather.TEMP_MIN));
-        textHistorical_TempMax.setText (HistoricalWeather.data.get (HistoricalWeather.TEMP_MAX));
+
     }
 
     @Override
@@ -269,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             historical_url += ",temperature_2m_min";
             historical_url += "&past_days=7";
             //String tryUrl = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=temperature_2m_max,temperature_2m_min&past_days=7";
+
             historicalThread = new JsonHandlerThread (historical_url);
             historicalThread.start ();
             historicalThread.join ();
