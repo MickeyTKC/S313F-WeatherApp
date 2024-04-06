@@ -21,6 +21,7 @@ public class ForecastWeather {
     public static String WIND = "wind";
     public static String SPEED = "speed";
     public static String VISIBILITY = "visibility";
+    public static String DT_TXT = "dt_txt";
     // Icon Constance
     private static final String CLEAR_SKY_D = "01d";
     private static final String FEW_CLOUDS_D = "02d";
@@ -81,6 +82,7 @@ public class ForecastWeather {
             JSONObject weather = item.getJSONArray(WEATHER).getJSONObject(0);
             JSONObject temp = item.getJSONObject(MAIN);
             JSONObject wind = item.getJSONObject(WIND);
+            String dt = item.getString(DT_TXT);
             String visibility = item.getString(VISIBILITY);
             // put JSON weather.main
             tempData.put(WEATHER , weather.getString(MAIN));
@@ -96,6 +98,7 @@ public class ForecastWeather {
             tempData.put(TEMP_MIN, temp.getString(TEMP_MIN));
             // put JSON wind.speed
             tempData.put(WIND , wind.getString(SPEED));
+            tempData.put(DT_TXT, dt);
             // put JSON visibility
             double vist = (Math.round(Double.parseDouble(visibility) / 10) / 100);
             tempData.put(VISIBILITY , ""+vist);
