@@ -1,9 +1,11 @@
 package com.example.myapplication.ui.forecast;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -17,6 +19,8 @@ import com.example.myapplication.databinding.FragmentForecastBinding;
 import com.example.myapplication.databinding.FragmentGalleryBinding;
 import com.example.myapplication.model.ForecastWeather;
 import com.example.myapplication.ui.gallery.GalleryViewModel;
+
+import java.util.HashMap;
 
 public class ForecastFragment extends Fragment {
     private FragmentForecastBinding binding;
@@ -37,6 +41,22 @@ public class ForecastFragment extends Fragment {
             );
 
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener() {
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            HashMap<String, String> f_data = ForecastWeather.data.get(position);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setTitle(getResources().getString(R.string.current_forecast_header)+"\n" + f_data.get(ForecastWeather.DT_TXT));
+                            builder.setMessage(f_data.get(ForecastWeather.WEATHER)
+                                    + "\n" + getResources().getString(R.string.current_temp_header) +": "+ f_data.get(ForecastWeather.TEMP)
+                                    + "\n" + getResources().getString(R.string.current_wind_header) +": "+ f_data.get(ForecastWeather.WIND)
+                                    + "\n" + getResources().getString(R.string.current_temp_visibility_header) +": "+ f_data.get(ForecastWeather.VISIBILITY));
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+                        }
+                    }
+            );
+
         });
         return root;
     }
