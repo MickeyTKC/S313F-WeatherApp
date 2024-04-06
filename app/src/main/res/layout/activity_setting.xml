@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="18sp"
-            android:text="Light" />
+            android:text="@string/setting_theme_light" />
 
         <RadioButton
             android:id="@+id/radio_dark"
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="18sp"
-            android:text="Dark" />
+            android:text="@string/setting_theme_dark" />
     </RadioGroup>
 
 </LinearLayout>
