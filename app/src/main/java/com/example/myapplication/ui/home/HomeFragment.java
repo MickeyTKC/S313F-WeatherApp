@@ -131,39 +131,39 @@ public class HomeFragment extends Fragment {
             textForecastTime4.setText(df.format(date));
         });
         homeViewModel.getForecastTemp1().observe(getViewLifecycleOwner(), text->{
-            textForecastTemp1.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(0).get(ForecastWeather.TEMP));
+            textForecastTemp1.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(8).get(ForecastWeather.TEMP));
         });
         homeViewModel.getForecastTemp2().observe(getViewLifecycleOwner(), text->{
-            textForecastTemp2.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(1).get(ForecastWeather.TEMP));
+            textForecastTemp2.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(16).get(ForecastWeather.TEMP));
         });
         homeViewModel.getForecastTemp3().observe(getViewLifecycleOwner(), text->{
-            textForecastTemp3.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(2).get(ForecastWeather.TEMP));
+            textForecastTemp3.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(24).get(ForecastWeather.TEMP));
         });
         homeViewModel.getForecastTemp4().observe(getViewLifecycleOwner(), text->{
-            textForecastTemp4.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(3).get(ForecastWeather.TEMP));
+            textForecastTemp4.setText(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(32).get(ForecastWeather.TEMP));
         });
         homeViewModel.getForecastImg1().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer resourceId) {
-                imageForecast1.setImageResource(ForecastWeather.getIconSource(0));
+                imageForecast1.setImageResource(ForecastWeather.getIconSource(8));
             }
         });
         homeViewModel.getForecastImg2().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer resourceId) {
-                imageForecast2.setImageResource(ForecastWeather.getIconSource(1));
+                imageForecast2.setImageResource(ForecastWeather.getIconSource(16));
             }
         });
         homeViewModel.getForecastImg3().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer resourceId) {
-                imageForecast3.setImageResource(ForecastWeather.getIconSource(2));
+                imageForecast3.setImageResource(ForecastWeather.getIconSource(24));
             }
         });
         homeViewModel.getForecastImg4().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer resourceId) {
-                imageForecast4.setImageResource(ForecastWeather.getIconSource(3));
+                imageForecast4.setImageResource(ForecastWeather.getIconSource(32));
             }
         });
     }

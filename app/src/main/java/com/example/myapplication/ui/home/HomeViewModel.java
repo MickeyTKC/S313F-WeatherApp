@@ -86,15 +86,15 @@ public class HomeViewModel extends ViewModel {
         textForecastTime3.setValue(dm.format(c.getTime()));
         c.add(Calendar.DAY_OF_YEAR, 1);
         textForecastTime4.setValue(dm.format(c.getTime()));
-        imageForecast1.setValue(ForecastWeather.getIconSource(0));
-        imageForecast2.setValue(ForecastWeather.getIconSource(1));
-        imageForecast3.setValue(ForecastWeather.getIconSource(2));
-        imageForecast4.setValue(ForecastWeather.getIconSource(3));
+        imageForecast1.setValue(ForecastWeather.getIconSource(8));
+        imageForecast2.setValue(ForecastWeather.getIconSource(16));
+        imageForecast3.setValue(ForecastWeather.getIconSource(24));
+        imageForecast4.setValue(ForecastWeather.getIconSource(32));
         //Log.d("HomeModel Forecast",ForecastWeather.data.get(0).toString());
-        textForecastTemp1.setValue(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(0).get(ForecastWeather.TEMP));
-        textForecastTemp2.setValue(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(1).get(ForecastWeather.TEMP));
-        textForecastTemp3.setValue(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(2).get(ForecastWeather.TEMP));
-        textForecastTemp4.setValue(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(3).get(ForecastWeather.TEMP));
+        textForecastTemp1.setValue(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(8).get(ForecastWeather.TEMP));
+        textForecastTemp2.setValue(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(16).get(ForecastWeather.TEMP));
+        textForecastTemp3.setValue(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(24).get(ForecastWeather.TEMP));
+        textForecastTemp4.setValue(ForecastWeather.data.isEmpty() ? "Loading" : ForecastWeather.data.get(32).get(ForecastWeather.TEMP));
 
 
     }

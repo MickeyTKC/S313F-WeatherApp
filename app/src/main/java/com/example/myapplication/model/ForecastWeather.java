@@ -75,7 +75,7 @@ public class ForecastWeather {
         // Convert to Java Data
         JSONArray list = jsonObj.getJSONArray(LIST);
         if (list == null) return;
-        for (int i=8; i<list.length(); i+=8){
+        for (int i=0; i<list.length(); i++){
             HashMap<String, String> tempData = new HashMap<>();
             JSONObject item = list.getJSONObject(i);
             JSONObject weather = item.getJSONArray(WEATHER).getJSONObject(0);
