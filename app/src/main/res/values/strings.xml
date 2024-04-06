@@ -1,35 +1,37 @@
 <resources>
     <string name="app_name">Open Weather</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">ナビゲーションドロワーを開く</string>
+    <string name="navigation_drawer_close">ナビゲーションドロワーを閉じる</string>
     <string name="nav_header_title">Open Weather</string>
     <string name="nav_header_subtitle">hkmu-weather.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="nav_header_desc">ナビゲーションヘッダー</string>
+    <string name="action_settings">設定</string>
     <string name="app_font_title">36sp</string>
     <string name="app_font_header">24sp</string>
     <string name="app_font_content">18sp</string>
-    <string name="menu_home">Current Weather</string>
-    <string name="menu_forecast">Forecast Weather</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_view_history">Weather history</string>
-    <string name="menu_setting">Setting</string>
-    <string name="current_temp_header">Temperature</string>
-    <string name="current_wind_header">Wind Speed (m/s)</string>
-    <string name="current_temp_visibility_header">Visibility (km)</string>
-    <string name="current_forecast_header">Forecast</string>
-    <string name="setting_lang_header">Language</string>
+    <string name="menu_home">現在の天気</string>
+    <string name="menu_forecast">天気予報</string>
+    <string name="menu_gallery">ギャラリー</string>
+    <string name="menu_slideshow">スライドショー</string>
+    <string name="menu_view_history">天気履歴</string>
+    <string name="menu_setting">設定</string>
+    <string name="current_temp_header">気温</string>
+    <string name="current_wind_header">風速（m/s）</string>
+    <string name="current_temp_visibility_header">視程（km）</string>
+    <string name="current_forecast_header">予報</string>
+    <string name="setting_lang_header">言語</string>
     <string-array name="setting_language">
-        <item>English</item>
-        <item>Chinese</item>
-        <item>Japanese</item>
+        <item>英語</item>
+        <item>中国語</item>
+        <item>日本語</item>
     </string-array>
-    <string name="setting_temp_header">Tempeure</string>
-    <string name="setting_temp_c">Celsius</string>
-    <string name="setting_temp_f">Fahrenheit</string>
-    <string name="setting_theme_header">Theme</string>
-    <string name="setting_location_header">Location</string>
-    <string name="my_location">My Location</string>
-    <string name="search_location">Search Location</string>
+    <string name="setting_temp_header">温度</string>
+    <string name="setting_temp_c">摂氏</string>
+    <string name="setting_temp_f">華氏</string>
+    <string name="setting_theme_header">テーマ</string>
+    <string name="setting_theme_light">ライト</string>
+    <string name="setting_theme_dark">ダーク</string>
+    <string name="setting_location_header">場所</string>
+    <string name="my_location">現在の場所</string>
+    <string name="search_location">場所を検索</string>
 </resources>
