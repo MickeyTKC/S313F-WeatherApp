@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public static double lon;
     public static String address;
     public static String country;
+    public static String lang;
 
     public static JsonHandlerThread th;
 
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         super.onCreate (savedInstanceState);
         // Get Pref
         SharedPreferences sharedPreferences = this.getSharedPreferences ("Setting", MODE_PRIVATE);
-        String lang = sharedPreferences.getString (SettingActivity.LANG, "en");
+        lang = sharedPreferences.getString (SettingActivity.LANG, "en");
         setAppLocale (lang);
         // Data binding
         binding = ActivityMainBinding.inflate (getLayoutInflater ());
@@ -244,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             currentURL += "lat=" + lat;
             currentURL += "&lon=" + lon;
             currentURL += "&units=metric";
+            currentURL += "&lang=" + lang;
             currentURL += JsonHandlerThread.OPEN_WEATHER_KEY;
             currentThread = new JsonHandlerThread (currentURL);
             currentThread.start ();
@@ -257,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             forecastURL += "lat=" + lat;
             forecastURL += "&lon=" + lon;
             forecastURL += "&units=metric";
+            forecastURL += "&lang=" + lang;
             forecastURL += JsonHandlerThread.OPEN_WEATHER_KEY;
             forecastThread = new JsonHandlerThread (forecastURL);
             forecastThread.start ();
