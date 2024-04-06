@@ -32,8 +32,8 @@ public class ForecastFragment extends Fragment {
                     this.getContext(),
                     ForecastWeather.data,
                     R.layout.forecast_list,
-                    new String[] { ForecastWeather.DESCRIPTION, ForecastWeather.TEMP, ForecastWeather.ICON_SOURCE },
-                    new int[] { R.id.weather, R.id.temp , R.id.imageForecastIcon}
+                    new String[] { ForecastWeather.DT_TXT, ForecastWeather.DESCRIPTION, ForecastWeather.TEMP, ForecastWeather.ICON_SOURCE, ForecastWeather.WIND, ForecastWeather.VISIBILITY },
+                    new int[] { R.id.dt, R.id.weather, R.id.temp , R.id.imageForecastIcon, R.id.textForecastWind, R.id.textForecastVisibility}
             );
 
             listView.setAdapter(adapter);
