@@ -190,14 +190,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         textForecastTime4.setText (dm.format (c.getTime ()));
         //imageForecast1.setValue(ForecastWeather.data.get(ForecastWeather.ICON));
         Log.d ("HomeModel Forecast", ForecastWeather.data.get (0).toString ());
-        textForecastTemp1.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (0).get (ForecastWeather.TEMP));
-        textForecastTemp2.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (1).get (ForecastWeather.TEMP));
-        textForecastTemp3.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (2).get (ForecastWeather.TEMP));
-        textForecastTemp4.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (3).get (ForecastWeather.TEMP));
-        imageForecast1.setImageResource (ForecastWeather.getIconSource (0));
-        imageForecast2.setImageResource (ForecastWeather.getIconSource (1));
-        imageForecast3.setImageResource (ForecastWeather.getIconSource (2));
-        imageForecast4.setImageResource (ForecastWeather.getIconSource (3));
+        textForecastTemp1.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (8).get (ForecastWeather.TEMP));
+        textForecastTemp2.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (16).get (ForecastWeather.TEMP));
+        textForecastTemp3.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (24).get (ForecastWeather.TEMP));
+        textForecastTemp4.setText (ForecastWeather.data.isEmpty () ? "Loading" : ForecastWeather.data.get (32).get (ForecastWeather.TEMP));
+        imageForecast1.setImageResource (ForecastWeather.getIconSource (8));
+        imageForecast2.setImageResource (ForecastWeather.getIconSource (16));
+        imageForecast3.setImageResource (ForecastWeather.getIconSource (24));
+        imageForecast4.setImageResource (ForecastWeather.getIconSource (32));
 
     }
 
