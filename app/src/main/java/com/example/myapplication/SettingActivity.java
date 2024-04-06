@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import static com.google.android.material.internal.ContextUtils.getActivity;
 
+import android.content.Intent;
 import android.os.Handler;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.api.GeocodingHandler;
+import com.example.myapplication.model.MutableValue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -114,20 +116,22 @@ public class SettingActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences ("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit ();
         radioGroup.setOnCheckedChangeListener (new RadioGroup.OnCheckedChangeListener () {
+
             @Override
 
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 Toast.makeText (SettingActivity.this, "RadioGroup changed", Toast.LENGTH_SHORT).show ();
+                MutableValue value=new MutableValue ();
                 if (checkedId == R.id.radioButton_my_location){
                     autoCompleteTextView.setVisibility (View.GONE);
-                    setvalue (isRadioButton_search_locationChecked,false);
-                    editor.putBoolean ("isRadioButton_search_locationChecked", isRadioButton_search_locationChecked); // 将"valueKey"替换为您的键
-                    Toast.makeText (SettingActivity.this, "upLoading sharedPreferences="+isRadioButton_search_locationChecked, Toast.LENGTH_SHORT).show ();
+                    value.setRadioButton_search_locationChecked (false);
+                    editor.putBoolean ("isRadioButton_search_locationChecked", value.isRadioButton_search_locationChecked ()); // 将"valueKey"替换为您的键
+                    Toast.makeText (SettingActivity.this, "upLoading sharedPreferences="+value.isRadioButton_search_locationChecked (), Toast.LENGTH_SHORT).show ();
                 } else if (checkedId == R.id.radioButton_search_location) {
                     autoCompleteTextView.setVisibility (View.VISIBLE);
-                    setvalue (isRadioButton_search_locationChecked,true);
-                    editor.putBoolean ("isRadioButton_search_locationChecked", isRadioButton_search_locationChecked); // 将"valueKey"替换为您的键
-                    Toast.makeText (SettingActivity.this, "upLoading sharedPreferences="+isRadioButton_search_locationChecked, Toast.LENGTH_SHORT).show ();
+                    value.setRadioButton_search_locationChecked (true);
+                    editor.putBoolean ("isRadioButton_search_locationChecked", value.isRadioButton_search_locationChecked ()); // 将"valueKey"替换为您的键
+                    Toast.makeText (SettingActivity.this, "upLoading sharedPreferences="+value.isRadioButton_search_locationChecked (), Toast.LENGTH_SHORT).show ();
                 }
                 editor.apply ();
 
@@ -139,54 +143,194 @@ public class SettingActivity extends AppCompatActivity {
         //GeocodingHandler geocodingHandler = new GeocodingHandler (new Geocoder (this));
         //for dynamic search result ,but will crash
         String[] SearchList = new String[]{
-                "Shenzhen", "Macau", "Guangzhou", "Zhuhai", "Dongguan", "Foshan", "Zhongshan",
-                "Huizhou", "Jiangmen", "Zhaoqing", "Heyuan", "Shantou", "Shaoguan", "Qingyuan",
-                "Zhanjiang", "Maoming", "Yangjiang", "Chaozhou", "Jieyang", "Meizhou", "Shanwei",
-                "Yunfu", "Nansha", "Heshan", "Panyu", "Conghua", "Taishan", "Enping", "Kaiping",
-                "Heping", "Lantau Island", "Hong Kong"
+                "Shenzhen, China",
+                "Macau, China",
+                "Guangzhou, China",
+                "Zhuhai, China",
+                "Dongguan, China",
+                "Foshan, China",
+                "Zhongshan, China",
+                "Huizhou, China",
+                "Jiangmen, China",
+                "Zhaoqing, China",
+                "Heyuan, China",
+                "Shantou, China",
+                "Shaoguan, China",
+                "Qingyuan, China",
+                "Zhanjiang, China",
+                "Maoming, China",
+                "Yangjiang, China",
+                "Chaozhou, China",
+                "Jieyang, China",
+                "Meizhou, China",
+                "Shanwei, China",
+                "Yunfu, China",
+                "Nansha, China",
+                "Heshan, China",
+                "Panyu, China",
+                "Conghua, China",
+                "Taishan, China",
+                "Enping, China",
+                "Kaiping, China",
+                "Heping, China",
+                "Lantau Island, Hong Kong",
+                "Hong Kong,China",
+                "Paris, France",
+                "New York City, USA",
+                "Tokyo, Japan",
+                "London, UK",
+                "Rome, Italy",
+                "Sydney, Australia",
+                "Cairo, Egypt",
+                "Rio de Janeiro, Brazil",
+                "Moscow, Russia",
+                "Cape Town, South Africa",
+                "Barcelona, Spain",
+                "Dubai, United Arab Emirates",
+                "Toronto, Canada",
+                "Berlin, Germany",
+                "Mumbai, India",
+                "Amsterdam, Netherlands",
+                "Bangkok, Thailand",
+                "Istanbul, Turkey",
+                "Seoul, South Korea",
+                "Athens, Greece",
+                "Nairobi, Kenya",
+                "Havana, Cuba",
+                "Buenos Aires, Argentina",
+                "Dublin, Ireland",
+                "Prague, Czech Republic",
+                "Stockholm, Sweden",
+                "Beijing, China",
+                "Mexico City, Mexico",
+                "Zurich, Switzerland",
+                "Cusco, Peru",
+                "Helsinki, Finland",
+                "Auckland, New Zealand",
+                "Lima, Peru",
+                "Cologne, Germany",
+                "Brussels, Belgium",
+                "Santiago, Chile",
+                "Hamburg, Germany",
+                "Phuket, Thailand",
+                "Florence, Italy",
+                "Seville, Spain",
+                "Oslo, Norway",
+                "Munich, Germany",
+                "Krakow, Poland",
+                "Casablanca, Morocco",
+                "Marrakech, Morocco",
+                "Mombasa, Kenya",
+                "Victoria Falls, Zimbabwe",
+                "Reykjavik, Iceland",
+                "Jerusalem, Israel",
+                "Singapore",
+                "Lisbon, Portugal",
+                "Vienna, Austria",
+                "Edinburgh, Scotland",
+                "Delhi, India",
+                "Copenhagen, Denmark",
+                "Hanoi, Vietnam",
+                "Johannesburg, South Africa",
+                "São Paulo, Brazil",
+                "Budapest, Hungary",
+                "Kuala Lumpur, Malaysia",
+                "Kyoto, Japan",
+                "Vancouver, Canada",
+                "Wellington, New Zealand",
+                "Rio de Janeiro, Brazil",
+                "Marrakech, Morocco",
+                "Sydney, Australia",
+                "Barcelona, Spain",
+                "Mexico City, Mexico",
+                "Tokyo, Japan",
+                "Rome, Italy",
+                "Berlin, Germany",
+                "Paris, France",
+                "Prague, Czech Republic",
+                "Cape Town, South Africa",
+                "Moscow, Russia",
+                "Cairo, Egypt",
+                "New York City, USA",
+                "London, UK",
+                "Amsterdam, Netherlands",
+                "Bangkok, Thailand",
+                "Istanbul, Turkey",
+                "Seoul, South Korea",
+                "Athens, Greece",
+                "Nairobi, Kenya",
+                "Buenos Aires, Argentina",
+                "Dublin, Ireland",
+                "Stockholm, Sweden",
+                "Beijing, China",
+                "Toronto, Canada",
+                "Zurich, Switzerland",
+                "Helsinki, Finland",
+                "Lima, Peru",
+                "Oslo, Norway",
+                "Brussels, Belgium",
+                "Copenhagen, Denmark",
+                "Hanoi, Vietnam",
+                "Lisbon, Portugal",
+                "Vienna, Austria",
+                "Delhi, India",
+                "Singapore",
+                "Kuala Lumpur, Malaysia",
+                "Budapest, Hungary",
+                "Vancouver, Canada",
+                "Wellington, New Zealand",
+                "Jerusalem, Israel",
+                "Edinburgh, Scotland",
+                "Copenhagen, Denmark",
+                "Hanoi, Vietnam",
+                "Stockholm, Sweden",
+                "Amsterdam, Netherlands",
+                "Lisbon, Portugal",
+                "Vienna, Austria",
+                "Prague, Czech Republic",
+                "Dublin, Ireland",
+                "Budapest, Hungary",
+                "Helsinki, Finland",
+                "Brussels, Belgium",
+                "Oslo, Norway",
+                "Copenhagen, Denmark",
+                "Athens, Greece",
+                "Berlin, Germany",
+                "Buenos Aires, Argentina",
+                "Delhi, India",
+                "Bangkok, Thailand",
+                "Istanbul, Turkey",
+                "Cairo, Egypt",
+                "Marrakech, Morocco",
+                "Nairobi, Kenya",
+                "Cape Town, South Africa",
+                "Barcelona, Spain",
+                "Rome, Italy",
+                "Sydney, Australia",
+                "Tokyo, Japan",
+                "Moscow, Russia",
+                "Dubai, United Arab Emirates",
 
         };
         ArrayAdapter<String> adapter = new ArrayAdapter<String> (this,
                 android.R.layout.simple_list_item_1, SearchList);
         autoCompleteTextView.setAdapter (adapter);
 
-        autoCompleteTextView.addTextChangedListener (new TextWatcher () {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // 在文本改變之前調用此方法
 
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // 在文本正在改變時調用此方法
-                // 在文本改變後調用此方法
-                //String searchText = s.toString ();
-                //geocodingHandler.performGeocoding (searchText);
-                //SearchList[0] = null;
-                //for (int i = 0; i <= geocodingHandler.getStringResultSet ().size()-1; i++ ) {
-                //    SearchList[i]=geocodingHandler.getStringResultSet().get (i);
-                //}
-                //for dynamic search result ,but will crash
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-
-            }
-        });
         //get input (when press enter)
         autoCompleteTextView.setOnEditorActionListener (new TextView.OnEditorActionListener () {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE || event.getKeyCode () == KeyEvent.KEYCODE_ENTER) {
-                    String inputText = autoCompleteTextView.getText ().toString ();
+                    MutableValue value = new MutableValue ();
+                    value.setUserInput (autoCompleteTextView.getText ().toString ());
                     // 使用最终输入的 inputText 执行操作
-                    editor.putString ("UserInput", inputText); // 将"valueKey"替换为您的键
-                    Toast.makeText (SettingActivity.this, "upLoading sharedPreferences="+inputText, Toast.LENGTH_SHORT).show ();
-                    editor.apply ();
+                    editor.putString ("MutableValue", value.getUserInput ());
+                    editor.apply ();// 将"valueKey"替换为您的键
+                    Toast.makeText (SettingActivity.this, "upLoading sharedPreferences="+value.getUserInput (), Toast.LENGTH_SHORT).show ();
+
+                    Intent intent = new Intent (SettingActivity.this, MainActivity.class);
+                    startActivity(intent);
                     return true;
                 }
                 return false;
@@ -199,8 +343,11 @@ public class SettingActivity extends AppCompatActivity {
                 String selectedItem = parent.getItemAtPosition (position).toString ();
                 // 使用所选的建议选项 selectedItem 执行操作
                 editor.putString ("UserInput", selectedItem); // 将"valueKey"替换为您的键
-                Toast.makeText (SettingActivity.this, "upLoading sharedPreferences="+selectedItem, Toast.LENGTH_SHORT).show ();
                 editor.apply ();
+                Toast.makeText (SettingActivity.this, "upLoading sharedPreferences="+selectedItem, Toast.LENGTH_SHORT).show ();
+
+                Intent intent = new Intent(SettingActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 

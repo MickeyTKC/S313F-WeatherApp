@@ -224,12 +224,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 Toast.makeText (this, "isRadioButton_search_locationChecked=1"+isRadioButton_search_locationChecked, Toast.LENGTH_SHORT).show ();
                 String UserInput = sharedPreferences.getString("UserInput", "Hong Kong");
 
-                GeocodingHandler geocodingHandler=new GeocodingHandler (geocoder);
-                geocodingHandler.performGeocoding(UserInput);
-                lat = geocodingHandler.getBestResultl ().getLatitude ();
-                lon = geocodingHandler.getBestResultl ().getLongitude ();
-                address = geocodingHandler.getBestResultl ().getAddressLine (0);
-                country = geocodingHandler.getBestResultl ().getCountryName ();
+                List<Address> addresses = geocoder.getFromLocationName (UserInput, 1);
+                lat = addresses.get (0).getLatitude ();
+                lon = addresses.get (0).getLongitude ();
+                address = addresses.get (0).getAddressLine (0);
+                country = addresses.get (0).getCountryName ();
                 Toast.makeText (this, "loading data="+UserInput, Toast.LENGTH_SHORT).show ();
             }
         } catch (Exception e) {
