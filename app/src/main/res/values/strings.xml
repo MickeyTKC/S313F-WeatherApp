@@ -28,4 +28,7 @@
     <string name="setting_temp_c">Celsius</string>
     <string name="setting_temp_f">Fahrenheit</string>
     <string name="setting_theme_header">Theme</string>
+    <string name="setting_location_header">Location</string>
+    <string name="my_location">My Location</string>
+    <string name="search_location">Search Location</string>
 </resources>
