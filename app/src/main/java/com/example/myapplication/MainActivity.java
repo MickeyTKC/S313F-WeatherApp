@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             historical_url += ",rain_sum";
             historical_url += ",wind_speed_10m_max";
             historical_url += "&past_days=7";
-            if(unit != "C") historical_url += "&temperature_unit=fahrenheit";
+            if(unit.equals("F")) historical_url += "&temperature_unit=fahrenheit";
             //String tryUrl = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=temperature_2m_max,temperature_2m_min&past_days=7";
 
             historicalThread = new JsonHandlerThread (historical_url);

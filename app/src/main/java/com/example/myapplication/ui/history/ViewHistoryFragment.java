@@ -46,7 +46,6 @@ public class ViewHistoryFragment extends Fragment {
                     },
                     new int[] { R.id.time, R.id.minTemp, R.id.maxTemp, R.id.rainSum ,R.id.maxWind}
             );
-
             listView.setAdapter(adapter);
         });
         return root;
