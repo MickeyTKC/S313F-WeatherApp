@@ -189,7 +189,16 @@ public class MainActivity extends AppCompatActivity {
                                 List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
                                 if (addresses.size() > 0) {
                                     country = addresses.get(0).getCountryName();
-                                    Log.d("Country", "Country: " + country);
+                                    SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                                    isRadioButton_search_locationChecked = sharedPreferences.getBoolean ("isRadioButton_search_locationChecked", false);
+                                    if (isRadioButton_search_locationChecked) {
+                                        String UserInput = sharedPreferences.getString("UserInput", "Hong Kong");
+                                        addresses = geocoder.getFromLocationName (UserInput, 1);
+                                        lat = addresses.get (0).getLatitude ();
+                                        lon = addresses.get (0).getLongitude ();
+                                        address = addresses.get (0).getAddressLine (0);
+                                        country = addresses.get (0).getCountryName ();
+                                    }
                                     callAPI();
                                 }
                             } catch (IOException e) {
