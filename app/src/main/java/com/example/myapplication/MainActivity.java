@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -39,16 +40,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.api.*;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import com.example.myapplication.model.*;
 
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
-public class MainActivity extends AppCompatActivity implements LocationListener {
+public class MainActivity extends AppCompatActivity {
     //data sharing
     boolean isRadioButton_search_locationChecked = false;
     private static String tag = "MainActivity";
@@ -60,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public static String country;
     public static String lang;
     public static String unit;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private FusedLocationProviderClient fusedLocationClient;
 
     public static JsonHandlerThread th;
 
@@ -110,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             public void onClick(View view) {
                 Snackbar.make (view, "Refreshing ...", Snackbar.LENGTH_LONG)
                         .setAction ("Action", null).show ();
-                getLocation ();
+                getLastKnownLocation();
             }
         });
         // NavBar and Items
@@ -152,27 +160,56 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         forecastList = findViewById(R.id.forecast_list);
         //History
         historyList = findViewById(R.id.historical_list);
-        // Get GPS Permission
-        if (ContextCompat.checkSelfPermission (MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions (MainActivity.this, new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION
-            }, 100);
-        }
-        getLocation ();
         Toast.makeText (this, "Loading", Toast.LENGTH_SHORT).show ();
-    }
-
-    @SuppressLint("MissingPermission")
-    private void getLocation() {
-        try {
-            locationManager = (LocationManager) getApplicationContext ().getSystemService (LOCATION_SERVICE);
-            locationManager.requestLocationUpdates (LocationManager.GPS_PROVIDER, 5000, 5, MainActivity.this);
-        } catch (Exception e) {
-            e.printStackTrace ();
+        // Get GPS Permission
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted, request it
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            // Permission is already granted, get the last known location
+            getLastKnownLocation();
         }
-
     }
+    @SuppressLint("MissingPermission")
+    private void getLastKnownLocation() {
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            lat = location.getLatitude();
+                            lon = location.getLongitude();
+
+                            Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                            try {
+                                List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
+                                if (addresses.size() > 0) {
+                                    country = addresses.get(0).getCountryName();
+                                    Log.d("Country", "Country: " + country);
+                                    callAPI();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLastKnownLocation();
+            } else {}
+        }
+    }
+
 
     public void setCurrentWeather() {
         Date now = Calendar.getInstance ().getTime ();
@@ -262,33 +299,47 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        try {
-            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-            isRadioButton_search_locationChecked = sharedPreferences.getBoolean ("isRadioButton_search_locationChecked", false);
-            Toast.makeText (this, "Loading sharedPreferences"+isRadioButton_search_locationChecked, Toast.LENGTH_SHORT).show ();
-            Geocoder geocoder = new Geocoder (MainActivity.this, Locale.getDefault ());
-            if (!isRadioButton_search_locationChecked) {
-                Toast.makeText (this, "isRadioButton_search_locationChecked=0"+isRadioButton_search_locationChecked, Toast.LENGTH_SHORT).show ();
-                List<Address> addresses = geocoder.getFromLocation (location.getLatitude (), location.getLongitude (), 1);
-                lat = location.getLatitude ();
-                lon = location.getLongitude ();
-                address = addresses.get (0).getAddressLine (0);
-                country = addresses.get (0).getCountryName ();
-            } else {
-                Toast.makeText (this, "isRadioButton_search_locationChecked=1"+isRadioButton_search_locationChecked, Toast.LENGTH_SHORT).show ();
-                String UserInput = sharedPreferences.getString("UserInput", "Hong Kong");
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater ().inflate (R.menu.main, menu);
+        return true;
+    }
 
-                List<Address> addresses = geocoder.getFromLocationName (UserInput, 1);
-                lat = addresses.get (0).getLatitude ();
-                lon = addresses.get (0).getLongitude ();
-                address = addresses.get (0).getAddressLine (0);
-                country = addresses.get (0).getCountryName ();
-                Toast.makeText (this, "loading data="+UserInput, Toast.LENGTH_SHORT).show ();
-            }
-        } catch (Exception e) {
-            e.printStackTrace ();
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController (this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp (navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp ();
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult (requestCode, resultCode, data);
+        if (requestCode == 0) {
+            //Toast.makeText(this, "After Setting", Toast.LENGTH_SHORT).show();
+            recreate ();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId ();
+        if (id == R.id.action_settings) {
+            Intent setting = new Intent (this, SettingActivity.class);
+            startActivityForResult (setting, 0);
+        }
+        return super.onOptionsItemSelected (item);
+    }
+
+    private void setAppLocale(String languageCode) {
+        Locale locale = new Locale (languageCode);
+        Locale.setDefault (locale);
+
+        Configuration configuration = getResources ().getConfiguration ();
+        configuration.setLocale (locale);
+        getResources ().updateConfiguration (configuration, getResources ().getDisplayMetrics ());
+    }
+
+    private void callAPI(){
         try {
             String utype = "metric";
             if(unit.equals("F")) utype = "imperial";
@@ -348,61 +399,4 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             e.printStackTrace ();
         }
     }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater ().inflate (R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController (this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp (navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp ();
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult (requestCode, resultCode, data);
-        if (requestCode == 0) {
-            //Toast.makeText(this, "After Setting", Toast.LENGTH_SHORT).show();
-            recreate ();
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId ();
-        if (id == R.id.action_settings) {
-            Intent setting = new Intent (this, SettingActivity.class);
-            startActivityForResult (setting, 0);
-        }
-        return super.onOptionsItemSelected (item);
-    }
-
-    private void setAppLocale(String languageCode) {
-        Locale locale = new Locale (languageCode);
-        Locale.setDefault (locale);
-
-        Configuration configuration = getResources ().getConfiguration ();
-        configuration.setLocale (locale);
-        getResources ().updateConfiguration (configuration, getResources ().getDisplayMetrics ());
-    }
-
 }
