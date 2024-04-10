@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView textCurrentDate;
     TextView textCurrentAddress;
+    TextView textCurrentCity;
     TextView textCurrentDescription;
     TextView textCurrentTemp;
     TextView textCurrentTempMin;
@@ -136,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         // Find view by id
         textCurrentDate = findViewById (R.id.textCurrentDate);
         textCurrentAddress = findViewById (R.id.textCurrentAddress);
+        textCurrentCity = findViewById (R.id.textCurrentCity);
         textCurrentDescription = findViewById (R.id.textCurrentDescription);
         textCurrentTemp = findViewById (R.id.textCurrentTemp);
         textCurrentTempMin = findViewById (R.id.textCurrentTempMin);
@@ -196,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                                         addresses = geocoder.getFromLocationName (UserInput, 1);
                                         lat = addresses.get (0).getLatitude ();
                                         lon = addresses.get (0).getLongitude ();
-                                        address = addresses.get (0).getAddressLine (0);
+                                        address = addresses.get (0).getLocality();
                                         country = addresses.get (0).getCountryName ();
                                     }
                                     callAPI();
@@ -225,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat ("dd-MMM-yyyy", Locale.getDefault ());
         try{
             textCurrentDate.setText (df.format (now));
+            textCurrentCity.setText (address);
             textCurrentAddress.setText (country);
             textCurrentDescription.setText (CurrentWeather.data.get (CurrentWeather.DESCRIPTION));
             textCurrentTemp.setText (CurrentWeather.data.get (CurrentWeather.TEMP));
